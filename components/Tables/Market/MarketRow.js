@@ -20,7 +20,7 @@ const MarketRow = memo(({ item }) => {
         </div>
       </td>
       <td className='nowrap'>
-        <div className='icon cover' style={{ backgroundImage: `url('${item.icon}')` }} />
+        <div className='icon cover' style={{ backgroundImage: `url('${item.image}')` }} />
         <strong>{item.symbol}</strong>
       </td>
       <td className='nowrap'>
@@ -28,15 +28,15 @@ const MarketRow = memo(({ item }) => {
       </td>
       <td className='right'>
         <strong>
-          {item.amount} {item.currency}
+          {item.current_price} {item.currency}
         </strong>
       </td>
       <td className='right'>
-        <strong className={color}>{item.change}</strong>
+        <strong className={color}>{item.price_change_percentage_24h.toFixed(1)}%</strong>
       </td>
-      <td className='right responsive-hide2'>{item.high}</td>
-      <td className='right responsive-hide2'>{item.low}</td>
-      <td className='right'>{item.volume}</td>
+      <td className='right responsive-hide2'>{item.high_24h}</td>
+      <td className='right responsive-hide2'>{item.low_24h}</td>
+      <td className='right'>${item.market_cap.toLocaleString()}</td>
     </tr>
   );
 });
