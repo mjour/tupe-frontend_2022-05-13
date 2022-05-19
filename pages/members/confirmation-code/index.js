@@ -25,6 +25,7 @@ const ConfirmationScreen = () => {
         e.preventDefault();
         
         var localCode = localStorage.getItem('forgotPasswordCode');
+        // eslint-disable-next-line no-undef
         if (localCode === formValues.code) {
         localStorage.removeItem("forgotPasswordCode");
           swal({
