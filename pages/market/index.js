@@ -33,10 +33,10 @@ const MarketScreen = () => {
       .then(res => {
         if (res && res.data) {
           setData(res.data);
-          let btc = res.data.find(x=>x.symbol == "btc");
-          let eth = res.data.find(x=>x.symbol == "eth");
-          let doge = res.data.find(x=>x.symbol == "doge");
-          let shib = res.data.find(x=>x.symbol == "shib");
+          const btc = res.data.find(x=>x.symbol === "btc");
+          const eth = res.data.find(x=>x.symbol === "eth");
+          const doge = res.data.find(x=>x.symbol === "doge");
+          const shib = res.data.find(x=>x.symbol === "shib");
           if (btc !== undefined) topcoin.btc = [btc.current_price, btc.price_change_percentage_24h];
           if (eth !== undefined) topcoin.eth = [eth.current_price, eth.price_change_percentage_24h];
           if (doge !== undefined) topcoin.doge = [doge.current_price, doge.price_change_percentage_24h];

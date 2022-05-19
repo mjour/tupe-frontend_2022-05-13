@@ -16,6 +16,7 @@ module.exports = {
   rules: {
     semi: 'warn',
     'no-console': 'warn',
+    'prettier/prettier': 'warn',
     'no-else-return': 'warn',
     'consistent-return': 'warn',
     // 'perfect-const': 'warn',
