@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 const ConfirmationScreen = () => {
     const router = useRouter();
-    const [formValue, setFormValue] = useState({
+    const [formValues, setFormValues] = useState({
        code: "", 
     });
     const handleChange = (e) => {
@@ -25,7 +25,6 @@ const ConfirmationScreen = () => {
         e.preventDefault();
         
         var localCode = localStorage.getItem('forgotPasswordCode');
-        // eslint-disable-next-line no-undef
         if (localCode === formValues.code) {
         localStorage.removeItem("forgotPasswordCode");
           swal({
