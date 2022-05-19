@@ -14,7 +14,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>BTC</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.btc[0]}</p>
+          <p>${topcoin.btc[0].toLocaleString()}</p>
           <p>{topcoin.btc[1]}%</p>
         </div>
       </div>
@@ -29,7 +29,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>ETH</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.eth[0]}</p>
+          <p>${topcoin.eth[0].toLocaleString()}</p>
           <p>{topcoin.eth[1]}%</p>
         </div>
       </div>
@@ -44,7 +44,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>DOGE</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.doge[0]}</p>
+          <p>${topcoin.doge[0].toLocaleString()}</p>
           <p>{topcoin.doge[1]}%</p>
         </div>
       </div>
@@ -59,7 +59,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.shib[0]}</p>
+          <p>${topcoin.shib[0].toLocaleString()}</p>
           <p>{topcoin.shib[1]}%</p>
         </div>
       </div>
