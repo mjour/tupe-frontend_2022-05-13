@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-const TopCoins = memo(() => (
+const TopCoins = memo(({topcoin}) => (
   <div className='topcoins'>
     <div className='flex flex-space-between list-box'>
       <div className='item'>
@@ -14,8 +14,8 @@ const TopCoins = memo(() => (
           <p>BTC</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>$39959.73</p>
-          <p>11.2%</p>
+          <p>${topcoin.btc[0]}</p>
+          <p>{topcoin.btc[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -29,8 +29,8 @@ const TopCoins = memo(() => (
           <p>ETH</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>$2742.35</p>
-          <p>11.2%</p>
+          <p>${topcoin.eth[0]}</p>
+          <p>{topcoin.eth[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -44,8 +44,8 @@ const TopCoins = memo(() => (
           <p>DOGE</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>$0.1400</p>
-          <p>11.2%</p>
+          <p>${topcoin.doge[0]}</p>
+          <p>{topcoin.doge[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -59,8 +59,8 @@ const TopCoins = memo(() => (
           <p>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>$0.000027</p>
-          <p>11.2%</p>
+          <p>${topcoin.shib[0]}</p>
+          <p>{topcoin.shib[1]}%</p>
         </div>
       </div>
     </div>
