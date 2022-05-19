@@ -28,7 +28,7 @@ const MarketRow = memo(({ item }) => {
       </td>
       <td className='right'>
         <strong>
-          {item.current_price} {item.currency}
+          {item.current_price.toLocaleString()} {item.currency}
         </strong>
       </td>
       <td className='right'>
