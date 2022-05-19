@@ -114,7 +114,6 @@ const SignupScreen = () => {
       })
   }
 
-  // eslint-disable-next-line consistent-return
   const handleSubmit = async (e) => {
     e.preventDefault();
     // eslint-disable-next-line prefer-const
@@ -145,17 +144,14 @@ const SignupScreen = () => {
           });
         }
       })
-      // eslint-disable-next-line no-shadow
-      .catch((err) => {
+      .catch(err => {
         console.log("error", err);
       });
     setIsSubmit(true);
   };
 
   const validate = (value) => {
-    // eslint-disable-next-line no-shadow
     const errors = {};
-    // eslint-disable-next-line no-useless-escape
     var validEmailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!value.name) {
       errors.name = "Referrer is required.";

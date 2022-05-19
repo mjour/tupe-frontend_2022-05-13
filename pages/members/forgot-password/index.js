@@ -6,11 +6,11 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 
-import { useRouter } from 'next/router';
 import MainLayout from '../../../layouts/MainLayout';
 import Box from '../../../components/Common/Box';
 import FormInput from '../../../components/Forms/FormInput';
 import FormButton from '../../../components/Forms/FormButton';
+import { useRouter } from 'next/router';
 
 const ForgotScreen = () => {
   const router = useRouter();
