@@ -1,12 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
+import { useRouter } from 'next/router';
 import MainLayout from "../../../layouts/MainLayout";
 import Box from "../../../components/Common/Box";
 import FormInput from "../../../components/Forms/FormInput";
 import FormButton from "../../../components/Forms/FormButton";
-import { useRouter } from "next/router";
-
 
 const ResetPasswordScreen = () => {
   const router = useRouter();
@@ -67,9 +66,8 @@ const ResetPasswordScreen = () => {
                   <img src='/images/logo_tupe.png' alt='Crypto Exchange' draggable='false' />
                 </div>
                 <h1 className='form-title center'>Create a new password</h1>
-                <p className='form-desc center'>
-                  You'll use this password to access your account.
-                </p>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                <p className='form-desc center'>You'll use this password to access your account.</p>
                 <form className='form' onSubmit={handleSubmit} noValidate>
                   <div className='form-elements'>
                     <div className='form-line'>

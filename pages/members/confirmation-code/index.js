@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
@@ -23,8 +24,7 @@ const ConfirmationScreen = () => {
     
       const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        var localCode = localStorage.getItem('forgotPasswordCode');
+        let localCode = localStorage.getItem('forgotPasswordCode');
         if (localCode === formValues.code) {
         localStorage.removeItem("forgotPasswordCode");
           swal({

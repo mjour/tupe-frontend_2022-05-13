@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+import axios from 'axios';
 import SiteLayout from '../../layouts/SiteLayout';
 import TopBar from '../../components/Tables/TopBar/TopBar';
 import MarketRow from '../../components/Tables/Market/MarketRow';
 import TopCoins from '../../components/Tables/Market/TopCoins';
 import Footer from '../../components/Footer/Footer';
 
-import axios from 'axios';
 
 
 const MarketScreen = () => {
@@ -20,11 +20,7 @@ const MarketScreen = () => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
 
-    // if (localToken && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() === 'production') {
-    //   router.push('/home');
-    // } else if (!localToken) {
-    //   router.push('/');
-    // }
+
 
     axios
       .get(

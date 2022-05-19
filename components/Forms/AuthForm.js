@@ -1,3 +1,4 @@
+/* eslint camelcase: "warn" */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -97,6 +98,7 @@ const AuthForm = () => {
 
   useEffect(() => {
     setBodyMinWidth('auto');
+
     local_email = localStorage.getItem('local_email');
     local_check = localStorage.getItem('checkbox');
     local_phone = localStorage.getItem('local_phone');
