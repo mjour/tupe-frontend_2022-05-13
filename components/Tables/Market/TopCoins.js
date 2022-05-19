@@ -59,7 +59,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.shib[0].toLocaleString()}</p>
+          <p>${topcoin.shib[0]}</p>
           <p>{topcoin.shib[1]}%</p>
         </div>
       </div>
