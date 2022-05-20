@@ -13,6 +13,8 @@ const MarketRow = memo(({ item }) => {
   }, []);
   const price = item.price_change_percentage_24h.toFixed(2);
 
+  console.log("price = ", price)
+
   return (
     <tr>
       <td className='markFavorite'>
