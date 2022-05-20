@@ -1,7 +1,7 @@
 import { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const MarketRow = memo(({ item }) => {
+const MarketRow = memo(({ item, index }) => {
   const [color, setColor] = useState('');
 
   useEffect(() => {
@@ -19,7 +19,8 @@ const MarketRow = memo(({ item }) => {
     <tr>
       <td className='markFavorite'>
         <div className='markFavorite-icon'>
-          <i className='material-icons'>star_border</i>
+          {/* <i className='material-icons'>star_border</i> */}
+          {index}
         </div>
       </td>
       <td className='nowrap'>
