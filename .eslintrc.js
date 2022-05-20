@@ -18,6 +18,7 @@ module.exports = {
     'no-console': 'warn',
     'prettier/prettier': 'warn',
     'no-else-return': 'warn',
+    'no-nested-ternary': 'warn',
     'consistent-return': 'warn',
     // 'perfect-const': 'warn',
     'no-shadow': 'warn',
