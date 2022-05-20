@@ -20,6 +20,7 @@ module.exports = {
     'no-else-return': 'warn',
     'no-nested-ternary': 'warn',
     'consistent-return': 'warn',
+    'eqeqeq': 'warn',
     // 'perfect-const': 'warn',
     'no-shadow': 'warn',
     'no-useless-escape': 'warn',
