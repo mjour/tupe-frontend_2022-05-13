@@ -7,7 +7,7 @@ import TopBar from '../../components/Tables/TopBar/TopBar';
 import MarketRow from '../../components/Tables/Market/MarketRow';
 import TopCoins from '../../components/Tables/Market/TopCoins';
 import Footer from '../../components/Footer/Footer';
-
+// import 
 const MarketScreen = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
@@ -25,10 +25,36 @@ const MarketScreen = () => {
   useEffect(() => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
+
+    // const request = require('request');
+
+// const options = {
+//   method: 'GET',
+//   url: 'https://api.coinranking.com/v2/coins',
+//   headers: {
+//     'x-access-token': 'your-api-key'
+//   }
+// };
+
+// fetch(options, (error, response) => {
+//   if (error) throw new Error(error);
+//   console.log(response.body);
+// });
+    // const config = {
+    //   headers:{
+    //     'x-access-token': 'coinranking471129a98c49875cae6b912b6ef8fcdff479f80004726b9f',
+    //   }
+    // };
+    // axios
+    //   .get(
+    //     'https://api.coinranking.com/v2/markets', config
+    //   ).then(res=>{
+    //     console.log(res)
+    //   })
     const checkViewerCountInterval = setInterval(async () => {
       axios
       .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false'
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false'
       )
       .then(res => {
         if (res && res.data) {
@@ -45,7 +71,7 @@ const MarketScreen = () => {
         }
       })
       .catch(error => console.log(error));
-    }, 1000 * 1);
+    }, 1000 * 10);
     return () => clearInterval(checkViewerCountInterval);
   }, []);
 
