@@ -15,7 +15,7 @@ const TopCoins = memo(({topcoin}) => (
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.btc[0].toLocaleString()}</p>
-          <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1]}%</p>
+          <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1] > 0 ? '+' : ''}{topcoin.btc[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -30,7 +30,7 @@ const TopCoins = memo(({topcoin}) => (
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.eth[0].toLocaleString()}</p>
-          <p className={topcoin.eth[1] > 0 ? 'green': 'red'}>{topcoin.eth[1]}%</p>
+          <p className={topcoin.eth[1] > 0 ? 'green': 'red'}>{topcoin.eth[1] > 0 ? '+' : ''}{topcoin.eth[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -45,7 +45,7 @@ const TopCoins = memo(({topcoin}) => (
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.doge[0].toLocaleString()}</p>
-          <p className={topcoin.doge[1] > 0 ? 'green': 'red'}>{topcoin.doge[1]}%</p>
+          <p className={topcoin.doge[1] > 0 ? 'green': 'red'}>{topcoin.doge[1] > 0 ? '+' : ''}{topcoin.doge[1]}%</p>
         </div>
       </div>
       <div className='item'>
@@ -60,7 +60,7 @@ const TopCoins = memo(({topcoin}) => (
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.shib[0]}</p>
-          <p className={topcoin.shib[1] > 0 ? 'green': 'red'}>{topcoin.shib[1]}%</p>
+          <p className={topcoin.shib[1] > 0 ? 'green': 'red'}>{topcoin.shib[1] > 0 ? '+' : ''}{topcoin.shib[1]}%</p>
         </div>
       </div>
     </div>
