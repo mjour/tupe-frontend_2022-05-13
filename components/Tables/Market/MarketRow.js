@@ -32,7 +32,7 @@ const MarketRow = memo(({ item }) => {
         </strong>
       </td>
       <td className='right'>
-        <strong className={item.price_change_percentage_24h > 0 ? 'green': 'red'}>{item.price_change_percentage_24h.toFixed(2)}%</strong>
+        <strong className={item.price_change_percentage_24h > 0 ? 'green': 'red'}>{item.price_change_percentage_24h > 0 ? "+" : ""} {item.price_change_percentage_24h.toFixed(2)}%</strong>
       </td>
       <td className='right responsive-hide2'>{item.high_24h}</td>
       <td className='right responsive-hide2'>{item.low_24h}</td>
