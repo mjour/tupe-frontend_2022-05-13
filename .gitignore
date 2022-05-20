@@ -46,3 +46,6 @@ yarn-error.log*
 # dotenv files
 .env
 .env.production
+
+.package-lock.json
+.yarn.lock
