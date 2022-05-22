@@ -18,6 +18,8 @@
     "@mui/material": "^5.4.3",
     "apexcharts": "^3.31.0",
     "axios": "^0.26.1",
+    "coingecko-api": "^1.0.10",
+    "coinmarketcap-api": "^3.1.1",
     "date-fns": "^2.28.0",
     "moment": "^2.29.1",
     "next": "12.1.0",
@@ -39,7 +41,9 @@
     "styled-components": "^5.3.3",
     "swal": "^0.1.0",
     "sweetalert": "^2.1.2",
-    "swiper": "^8.0.6"
+    "swiper": "^8.0.6",
+    "websocket": "^1.0.34",
+    "ws": "^8.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

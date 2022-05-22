@@ -11,9 +11,7 @@ const MarketRow = memo(({ item, index }) => {
       setColor('red');
     }
   }, []);
-  const price = item.price_change_percentage_24h.toFixed(2);
-
-  console.log("price = ", price)
+  const price = parseFloat(item.price_change_percentage_24h).toFixed(2);
 
   return (
     <tr>
@@ -30,7 +28,7 @@ const MarketRow = memo(({ item, index }) => {
       <td className='nowrap'>
         <strong>{item.name}</strong>
       </td>
-      <td className='right'>
+      <td className='right' style={{width: 150}}>
         <strong>
           {item.current_price.toLocaleString()} {item.currency}
         </strong>
@@ -40,7 +38,7 @@ const MarketRow = memo(({ item, index }) => {
       </td>
       <td className='right responsive-hide2'>{item.high_24h}</td>
       <td className='right responsive-hide2'>{item.low_24h}</td>
-      <td className='right'>${item.market_cap.toLocaleString()}</td>
+      <td className='right' style={{width: 300}}>${item.market_cap.toLocaleString()}</td>
     </tr>
   );
 });

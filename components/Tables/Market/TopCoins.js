@@ -11,7 +11,7 @@ const TopCoins = memo(({topcoin}) => (
               backgroundImage: `url(https://icons-for-free.com/iconfiles/png/512/btc+coin+crypto+icon-1320162856490699468.png)`,
             }}
           />
-          <p>BTC</p>
+          <p style={{marginLeft: 5}}>BTC</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.btc[0].toLocaleString()}</p>
@@ -41,7 +41,7 @@ const TopCoins = memo(({topcoin}) => (
               backgroundImage: `url(https://upload-hotbit-io.oss-ap-southeast-1.aliyuncs.com/files/asset_logos/DOGE_LOGO.png)`,
             }}
           />
-          <p>DOGE</p>
+          <p style={{marginLeft: 5}}>DOGE</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.doge[0].toLocaleString()}</p>
@@ -56,7 +56,7 @@ const TopCoins = memo(({topcoin}) => (
               backgroundImage: `url(https://upload-hotbit-io.oss-ap-southeast-1.aliyuncs.com/files/SHIB_LOGO.png)`,
             }}
           />
-          <p>SHIB</p>
+          <p style={{marginLeft: 5}}>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
           <p>${topcoin.shib[0]}</p>
