@@ -89,8 +89,6 @@ const MarketScreen = () => {
             const new_data = cloneDeep(data);
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
             if (json.PRICE !== undefined) insert_item.current_price = json.PRICE;
-            // if (json.LOW24HOUR !== undefined) insert_item.low_24h = json.LOW24HOUR;
-            // if (json.LOWHOUR !== undefined) insert_item.high_24h = json.LOWHOUR;
             if (json.CURRENTSUPPLYMKTCAP !== undefined) insert_item.market_cap = json.VOLUME24HOUR;
 
             const findIndex = data.findIndex(x=>x.symbol === insert_item.symbol);
@@ -117,7 +115,6 @@ const MarketScreen = () => {
 
   const handleSearchValue = (e) => {
     const { value } = e.target;
-
     setKeyword(value);
   };
 
