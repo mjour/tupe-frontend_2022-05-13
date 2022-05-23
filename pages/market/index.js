@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import SiteLayout from '../../layouts/SiteLayout';
@@ -6,14 +6,17 @@ import TopBar from '../../components/Tables/TopBar/TopBar';
 import MarketRow from '../../components/Tables/Market/MarketRow';
 import TopCoins from '../../components/Tables/Market/TopCoins';
 import Footer from '../../components/Footer/Footer';
-import { InsightsOutlined, InstallMobileOutlined } from '@mui/icons-material';
+import Pagination from '../../components/Common/Pagination';
 import {isNil, cloneDeep} from "lodash";
-// import 
+
 const MarketScreen = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [keyword, setKeyword] = useState('');
   const [token, setToken] = useState('');
+  const [current_page, setCurrentPage] = useState(1);
+  const [pageOfItems, setPageOfItems] = useState([]);
+
   const init_state = {
     btc: ['', ''],
     eth: ['', ''],
@@ -24,10 +27,12 @@ const MarketScreen = () => {
   const [allSymbol, setAllSymbol] = useState([]);
   const CRYTOCOMPARE_API_KEY = '22ecd4c3d9ba9629fe8555875cb826598533e729ef38e46af033f4f6fdec2802';
 
-  const apiFunction = () => {
-    axios
+  const apiFunction = async () => {
+    var all_coins = [];
+    var all_symbols = [];
+    await axios
     .get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false'
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=400&page=1&sparkline=false'
     )
     .then(res => {
       if (res && res.data) {
@@ -36,6 +41,7 @@ const MarketScreen = () => {
           item.sort_number = index + 1;
           new_data.push(item);
         })
+        all_coins = [...new_data];
         setData(new_data);
         const btc = res.data.find(x=>x.symbol === "btc");
         const eth = res.data.find(x=>x.symbol === "eth");
@@ -48,12 +54,37 @@ const MarketScreen = () => {
         setTopcoin({...topcoin});
         res.data.map(item=>{
           if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
-          allSymbol.push(item.symbol.toUpperCase());
+          all_symbols.push(item.symbol.toUpperCase());
         })
-        setAllSymbol([...allSymbol])
       }
     })
     .catch(error => console.log(error));
+
+    setTimeout(()=>{
+      axios
+      .get(
+        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=150&page=2&sparkline=false'
+      )
+      .then(res => {
+        if (res && res.data) {
+          const new_data = [];
+          res.data.map((item, index)=>{
+            item.sort_number = index + data.length;
+            new_data.push(item);
+          })
+          const merge_data = all_coins.concat(new_data);
+          setData(merge_data);
+          res.data.map(item=>{
+            if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
+            all_symbols.push(item.symbol.toUpperCase());
+          })
+          setAllSymbol([...all_symbols])
+        }
+      })
+      .catch(error => console.log(error));
+
+    }, 100 * 1)
+
   }
 
 
@@ -61,10 +92,6 @@ const MarketScreen = () => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
     apiFunction();
-    const checkViewerCountInterval = setInterval(async () => {
-      apiFunction();
-    }, 1000 * 60);
-    return () => clearInterval(checkViewerCountInterval);
   }, []);
 
   useEffect(()=>{
@@ -125,6 +152,14 @@ const MarketScreen = () => {
   const filteredCoins = data.filter(coin =>
     coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase())
   );
+  
+
+  function onChangePage (pageOfItems, pager) {
+    console.log("----------",pageOfItems)
+    setPageOfItems(pageOfItems);
+    if (!isNil(pager))
+    setCurrentPage(pager.currentPage);
+  }
 
   return (
     <>
@@ -136,7 +171,7 @@ const MarketScreen = () => {
           searchSubmit={handleSearchSubmit}
         />
 
-        {filteredCoins && filteredCoins.length > 0 && (
+        {pageOfItems && pageOfItems.length > 0 && (
           <table className='data-table'>
             <thead>
               <tr>
@@ -153,12 +188,20 @@ const MarketScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredCoins.map((item, index) => (
+              {pageOfItems.map((item, index) => (
                 <MarketRow key={item.id.toString()} item={item} index={index + 1} />
               ))}
             </tbody>
+            
           </table>
         )}
+        <div style={{display: 'flex'}}>
+          <Pagination
+            items={filteredCoins}
+            onChangePage={onChangePage}
+            pageSize={20}
+          />
+        </div>
       </SiteLayout>
       <Footer />
     </>
