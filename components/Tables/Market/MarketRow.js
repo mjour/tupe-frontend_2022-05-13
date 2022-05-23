@@ -15,7 +15,7 @@ const MarketRow = memo(({ item, index }) => {
 
   return (
     <tr>
-      <td className='markFavorite'>
+      <td className='markFavorite' style={{width:80}}>
         <div className='markFavorite-icon'>
           <i className='material-icons'>star_border</i>
           <span style={{marginLeft:5, marginTop: 7, display:"inline-flex", verticalAlign:"top"}}>{index}</span>

@@ -7,7 +7,7 @@ import MarketRow from '../../components/Tables/Market/MarketRow';
 import TopCoins from '../../components/Tables/Market/TopCoins';
 import Footer from '../../components/Footer/Footer';
 import Pagination from '../../components/Common/Pagination';
-import {isNil, cloneDeep} from "lodash";
+import {isNil, cloneDeep, uniqBy} from "lodash";
 
 const MarketScreen = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ const MarketScreen = () => {
     var all_symbols = [];
     await axios
     .get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=400&page=1&sparkline=false'
+      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false'
     )
     .then(res => {
       if (res && res.data) {
@@ -65,12 +65,12 @@ const MarketScreen = () => {
       )
       .then(res => {
         if (res && res.data) {
-          const new_data = [];
+          const new_data_1 = [];
           res.data.map((item, index)=>{
             item.sort_number = index + data.length;
-            new_data.push(item);
+            new_data_1.push(item);
           })
-          const merge_data = all_coins.concat(new_data);
+          const merge_data = all_coins.concat(new_data_1);
           setData(merge_data);
           res.data.map(item=>{
             if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
