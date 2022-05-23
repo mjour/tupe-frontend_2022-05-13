@@ -42,7 +42,6 @@ const MarketScreen = () => {
           new_data.push(item);
         })
         all_coins = [...new_data];
-        setData(new_data);
         const btc = res.data.find(x=>x.symbol === "btc");
         const eth = res.data.find(x=>x.symbol === "eth");
         const doge = res.data.find(x=>x.symbol === "doge");
@@ -82,9 +81,7 @@ const MarketScreen = () => {
         }
       })
       .catch(error => console.log(error));
-
     }, 100 * 1)
-
   }
 
 
@@ -100,7 +97,7 @@ const MarketScreen = () => {
     allSymbol.map(item=>{
       const push_item =  '5~CCCAGG~' + item + '~USD';
       subs.push(push_item);
-    })
+    });
     const apiCall = {action: 'SubAdd',subs};
     const url = 'wss://streamer.cryptocompare.com/v2?api_key=' + CRYTOCOMPARE_API_KEY;
     const isBrowser = typeof window !== "undefined";
@@ -138,7 +135,7 @@ const MarketScreen = () => {
         }
       };
     }
-  }, [allSymbol])
+  }, [allSymbol]);
 
   const handleSearchValue = (e) => {
     const { value } = e.target;
@@ -152,13 +149,11 @@ const MarketScreen = () => {
   const filteredCoins = data.filter(coin =>
     coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase())
   );
-  
 
-  function onChangePage (pageOfItems, pager) {
-    console.log("----------",pageOfItems)
-    setPageOfItems(pageOfItems);
-    if (!isNil(pager))
-    setCurrentPage(pager.currentPage);
+  const page_content = filteredCoins.slice((current_page - 1) * 20, current_page * 20);
+
+  function onChangePage (pager) {
+    if (!isNil(pager)) setCurrentPage(pager.currentPage);
   }
 
   return (
@@ -171,7 +166,7 @@ const MarketScreen = () => {
           searchSubmit={handleSearchSubmit}
         />
 
-        {pageOfItems && pageOfItems.length > 0 && (
+        {page_content && page_content.length > 0 && (
           <table className='data-table'>
             <thead>
               <tr>
@@ -189,7 +184,7 @@ const MarketScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {pageOfItems.map((item, index) => (
+              {page_content.map((item, index) => (
                 <MarketRow key={item.id.toString()} item={item} index={index + 1} />
               ))}
             </tbody>

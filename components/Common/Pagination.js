@@ -60,7 +60,6 @@ class Pagination extends React.Component {
   componentDidUpdate(prevProps) {
     // reset page if items array has changed
     if (this.inital && this.props.items != undefined && this.props.items != null && this.props.items.length > 0 && this.props.items !== prevProps.items || this.props.pageSize != prevProps.pageSize) {
-      console.log("sdfsfs=-====",this.props.items)
       this.setPage(this.props.initialPage);
       this.inital = false;
     }
@@ -81,7 +80,7 @@ class Pagination extends React.Component {
     this.setState({ pager: pager });
     
     // call change page function in parent component
-    this.props.onChangePage(pageOfItems, pager);
+    this.props.onChangePage(pager);
   }
   
   getPager(totalItems, currentPage, pageSize) {
