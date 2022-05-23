@@ -15,7 +15,6 @@ const MarketScreen = () => {
   const [keyword, setKeyword] = useState('');
   const [token, setToken] = useState('');
   const [current_page, setCurrentPage] = useState(1);
-  const [pageOfItems, setPageOfItems] = useState([]);
 
   const init_state = {
     btc: ['', ''],
@@ -150,11 +149,11 @@ const MarketScreen = () => {
     coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase())
   );
 
-  const page_content = filteredCoins.slice((current_page - 1) * 20, current_page * 20);
 
   function onChangePage (pager) {
     if (!isNil(pager)) setCurrentPage(pager.currentPage);
   }
+
 
   return (
     <>
@@ -166,7 +165,7 @@ const MarketScreen = () => {
           searchSubmit={handleSearchSubmit}
         />
 
-        {page_content && page_content.length > 0 && (
+        {filteredCoins && filteredCoins.length > 0 && (
           <table className='data-table'>
             <thead>
               <tr>
@@ -184,8 +183,13 @@ const MarketScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {page_content.map((item, index) => (
-                <MarketRow key={item.id.toString()} item={item} index={index + 1} />
+              {filteredCoins.map((item, index) => (
+                <>
+                  {index >= (current_page - 1) * 20 && index < current_page *20 && (
+                    <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} />
+
+                  )}
+                </>
               ))}
             </tbody>
             
@@ -194,6 +198,7 @@ const MarketScreen = () => {
         <div style={{display: 'flex'}}>
           <Pagination
             items={filteredCoins}
+            initialPage={current_page}
             onChangePage={onChangePage}
             pageSize={20}
           />
