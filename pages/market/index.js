@@ -176,7 +176,7 @@ const MarketScreen = () => {
             <thead>
               <tr>
                 <th className='markFavorite left'>
-                  <i className='markFavorite-icon material-icons'>star_border</i>
+                  <i className='markFavorite-icon material-icons'>star_border}</i>#
                 </th>
                 <th className='left'>Coin</th>
                 <th className='left'>&nbsp;</th>

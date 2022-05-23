@@ -17,7 +17,7 @@ const MarketRow = memo(({ item, index }) => {
     <tr>
       <td className='markFavorite'>
         <div className='markFavorite-icon'>
-          {/* <i className='material-icons'>star_border</i> */}
+          <i className='material-icons'>star_border</i>
           {index}
         </div>
       </td>
