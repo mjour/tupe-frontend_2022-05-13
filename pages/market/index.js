@@ -17,7 +17,7 @@ const MarketScreen = () => {
   const [current_page, setCurrentPage] = useState(1);
   const [trade, setTrade] = useState({});
   const [showTrade, setShowTrade] = useState(false);
-  const [tradeType, setTradeType] = useState('');
+  const [tradeType, setTradeType] = useState('Favorites');
 
   const init_state = {
     btc: ['', ''],
@@ -197,6 +197,7 @@ const MarketScreen = () => {
           searchOnChange={handleSearchValue}
           searchSubmit={handleSearchSubmit}
           topButtonEvent={handleTopButtonEvent}
+          type={tradeType}
         />
 
         {showTrade ? (

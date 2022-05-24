@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent }) => (
+const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent, type }) => (
   <div className='top-buttons'>
     <div className='top-search no-select nowrap'>
       <form onSubmit={searchSubmit} noValidate>
@@ -22,40 +22,40 @@ const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent
     </div>
     <div className='flex flex-center flex-space-between mt-2'>
       <div className='btn-box'>
-        <button className='button button-white button-small active' type='button' onClick={()=>topButtonEvent('Favorites')}>
+        <button className={'button button-white button-small' + (type === 'Favorites' ? 'active' : '')} type='button' onClick={()=>topButtonEvent('Favorites')}>
           <span className='txt'>Favorites</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('TUPE')}>
+        <button className={'button button-white button-small ' + (type === 'TUPE' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('TUPE')}>
           <span className='txt'>TUPE</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('AUD')}>
+        <button className={'button button-white button-small ' + (type === 'AUD' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('AUD')}>
           <span className='txt'>AUD</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('NZD')}>
+        <button className={'button button-white button-small ' + (type === 'NZD' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('NZD')}>
           <span className='txt'>NZD</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('LKR')}>
+        <button className={'button button-white button-small ' + (type === 'LKR' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('LKR')}>
           <span className='txt'>LKR</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('INR')}>
+        <button className={'button button-white button-small ' + (type === 'INR' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('INR')}>
           <span className='txt'>INR</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('BTC')}>
+        <button className={'button button-white button-small ' + (type === 'BTC' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('BTC')}>
           <span className='txt'>BTC</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('ETH')}>
+        <button className={'button button-white button-small ' + (type === 'ETH' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('ETH')}>
           <span className='txt'>ETH</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('BNB')}>
+        <button className={'button button-white button-small ' + (type === 'BNB' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('BNB')}>
           <span className='txt'>BNB</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('TAUD')}>
+        <button className={'button button-white button-small ' + (type === 'TAUD' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('TAUD')}>
           <span className='txt'>TAUD</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('USDT')}>
+        <button className={'button button-white button-small ' + (type === 'USDT' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('USDT')}>
           <span className='txt'>USDT</span>
         </button>
-        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('SHIB')}>
+        <button className={'button button-white button-small ' + (type === 'SHIB' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('SHIB')}>
           <span className='txt'>SHIBU</span>
         </button>
       </div>
