@@ -22,7 +22,7 @@ const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent
     </div>
     <div className='flex flex-center flex-space-between mt-2'>
       <div className='btn-box'>
-        <button className={'button button-white button-small' + (type === 'Favorites' ? 'active' : '')} type='button' onClick={()=>topButtonEvent('Favorites')}>
+        <button className={'button button-white button-small ' + (type === 'Favorites' ? 'active' : '')} type='button' onClick={()=>topButtonEvent('Favorites')}>
           <span className='txt'>Favorites</span>
         </button>
         <button className={'button button-white button-small ' + (type === 'TUPE' ? 'active' : '')}  type='button' onClick={()=>topButtonEvent('TUPE')}>

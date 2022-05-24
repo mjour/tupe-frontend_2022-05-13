@@ -159,7 +159,6 @@ const MarketScreen = () => {
   }
 
   const handleTopButtonEvent = (type) => {
-    console.log(type);
     setTradeType(type);
     // clearInterval()
     if (type === 'Favorites') {
