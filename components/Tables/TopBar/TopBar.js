@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const TopBar = memo(({ searchValue, searchOnChange, searchSubmit }) => (
+const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent }) => (
   <div className='top-buttons'>
     <div className='top-search no-select nowrap'>
       <form onSubmit={searchSubmit} noValidate>
@@ -12,6 +12,7 @@ const TopBar = memo(({ searchValue, searchOnChange, searchSubmit }) => (
           autoComplete='off'
           placeholder='Search...'
           onChange={searchOnChange}
+          topButtonEvent={topButtonEvent}
           value={searchValue}
         />
         <button type='submit' className='pointer'>
@@ -21,40 +22,40 @@ const TopBar = memo(({ searchValue, searchOnChange, searchSubmit }) => (
     </div>
     <div className='flex flex-center flex-space-between mt-2'>
       <div className='btn-box'>
-        <button className='button button-white button-small active' type='button'>
+        <button className='button button-white button-small active' type='button' onClick={()=>topButtonEvent('Favorites')}>
           <span className='txt'>Favorites</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('TUPE')}>
           <span className='txt'>TUPE</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('AUD')}>
           <span className='txt'>AUD</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('NZD')}>
           <span className='txt'>NZD</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('LKR')}>
           <span className='txt'>LKR</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('INR')}>
           <span className='txt'>INR</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('BTC')}>
           <span className='txt'>BTC</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('ETH')}>
           <span className='txt'>ETH</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('BNB')}>
           <span className='txt'>BNB</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('TAUD')}>
           <span className='txt'>TAUD</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('USDT')}>
           <span className='txt'>USDT</span>
         </button>
-        <button className='button button-white button-small' type='button'>
+        <button className='button button-white button-small' type='button' onClick={()=>topButtonEvent('SHIB')}>
           <span className='txt'>SHIBU</span>
         </button>
       </div>
@@ -105,6 +106,7 @@ TopBar.propTypes = {
   searchValue: PropTypes.string.isRequired,
   searchSubmit: PropTypes.func.isRequired,
   searchOnChange: PropTypes.func.isRequired,
+  topButtonEvent: PropTypes.func.isRequired,
 };
 
 export default TopBar;
