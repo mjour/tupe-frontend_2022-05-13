@@ -217,7 +217,7 @@ const MarketScreen = () => {
                         {trade[key].FROMSYMBOL}/{key}
                       </td>
                       <td className='right' style={{width: "40%"}}>{trade[key].PRICE}</td>
-                      <td style={{width: "40%"}} className={'right ' + (trade[key].CHANGE24HOUR > 0 ? 'green' : 'red')}>{trade[key].CHANGE24HOUR}%</td>
+                      <td style={{width: "40%"}} className={'right ' + (trade[key].CHANGE24HOUR > 0 ? 'green' : (trade[key].CHANGE24HOUR < 0 ? 'red' : ''))}>{trade[key].CHANGE24HOUR}%</td>
                     </tr>
                   )}
                 </>
