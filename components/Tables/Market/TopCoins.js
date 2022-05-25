@@ -1,5 +1,12 @@
 import { memo } from 'react';
 
+function round(x) {
+  const parsefloat = parseFloat(x).toFixed(5);
+  const integer = parsefloat.split('.');
+  return Number(integer[0]).toLocaleString() + '.' + integer[1];
+}
+
+
 const TopCoins = memo(({topcoin}) => (
   <div className='topcoins'>
     <div className='flex flex-space-between list-box'>
@@ -14,8 +21,8 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>BTC</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.btc[0].toLocaleString()}</p>
-          <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1] > 0 ? '+' : ''}{topcoin.btc[1]}%</p>
+          <p>${round(topcoin.btc[0])}</p>
+          <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1] > 0 ? '+' : ''}{round(topcoin.btc[1])}%</p>
         </div>
       </div>
       <div className='item'>
@@ -29,8 +36,8 @@ const TopCoins = memo(({topcoin}) => (
           <p>ETH</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.eth[0].toLocaleString()}</p>
-          <p className={topcoin.eth[1] > 0 ? 'green': 'red'}>{topcoin.eth[1] > 0 ? '+' : ''}{topcoin.eth[1]}%</p>
+          <p>${round(topcoin.eth[0])}</p>
+          <p className={topcoin.eth[1] > 0 ? 'green': 'red'}>{topcoin.eth[1] > 0 ? '+' : ''}{round(topcoin.eth[1])}%</p>
         </div>
       </div>
       <div className='item'>
@@ -44,8 +51,8 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>DOGE</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.doge[0].toLocaleString()}</p>
-          <p className={topcoin.doge[1] > 0 ? 'green': 'red'}>{topcoin.doge[1] > 0 ? '+' : ''}{topcoin.doge[1]}%</p>
+          <p>${round(topcoin.doge[0])}</p>
+          <p className={topcoin.doge[1] > 0 ? 'green': 'red'}>{topcoin.doge[1] > 0 ? '+' : ''}{round(topcoin.doge[1])}%</p>
         </div>
       </div>
       <div className='item'>
@@ -59,8 +66,8 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${topcoin.shib[0]}</p>
-          <p className={topcoin.shib[1] > 0 ? 'green': 'red'}>{topcoin.shib[1] > 0 ? '+' : ''}{topcoin.shib[1]}%</p>
+          <p>${round(topcoin.shib[0])}</p>
+          <p className={topcoin.shib[1] > 0 ? 'green': 'red'}>{topcoin.shib[1] > 0 ? '+' : ''}{round(topcoin.shib[1])}%</p>
         </div>
       </div>
     </div>

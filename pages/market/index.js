@@ -123,9 +123,13 @@ const MarketScreen = () => {
         try {
           if (json.FROMSYMBOL !== undefined) {
             const new_data = cloneDeep(data);
+            console.log(json)
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
-            if (json.PRICE !== undefined) insert_item.current_price = json.PRICE;
-            if (json.CURRENTSUPPLYMKTCAP !== undefined) insert_item.market_cap = json.VOLUME24HOUR;
+            if (json.PRICE !== undefined) {
+              insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
+              insert_item.current_price = json.PRICE;
+            }
+            if (json.CURRENTSUPPLYMKTCAP !== undefined) insert_item.market_cap = json.CIRCULATINGSUPPLYMKTCAP;
             if (trade_price[json.FROMSYMBOL] !== undefined && json.PRICE !== undefined) trade_price[json.FROMSYMBOL] = json.PRICE;
             setTradePrice(trade_price);
 
