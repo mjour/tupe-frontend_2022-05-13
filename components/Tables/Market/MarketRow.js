@@ -1,7 +1,7 @@
 import { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const MarketRow = memo(({ item, index }) => {
+const MarketRow = memo(({ item, index, multiple }) => {
   const [color, setColor] = useState('');
 
   useEffect(() => {
@@ -30,14 +30,14 @@ const MarketRow = memo(({ item, index }) => {
       </td>
       <td className='right' style={{width: 150}}>
         <strong>
-          {item.current_price.toLocaleString()} {item.currency}
+          {(item.current_price/multiple).toLocaleString()} {item.currency}
         </strong>
       </td>
       <td className='right'>
         <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {price}%</strong>
       </td>
-      <td className='right responsive-hide2'>{item.high_24h}</td>
-      <td className='right responsive-hide2'>{item.low_24h}</td>
+      <td className='right responsive-hide2'>{item.high_24h/multiple}</td>
+      <td className='right responsive-hide2'>{item.low_24h/multiple}</td>
       <td className='right' style={{width: 300}}>${item.market_cap.toLocaleString()}</td>
     </tr>
   );

@@ -18,16 +18,21 @@ const MarketScreen = () => {
   const [trade, setTrade] = useState({});
   const [showTrade, setShowTrade] = useState(false);
   const [tradeType, setTradeType] = useState('Favorites');
+  const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':1.41, 'NZD':1.54, 'LKR':359.55, 'INR':77.51, 'BTC':0.000033, 'ETH':1, 'BNB':1, 'TAUD':0.9107635219957542, 'USDT':1, 'SHIB':1};
+  const [trade_price, setTradePrice] = useState(tradeTypes);
+  const [multiple, setMulti] = useState(1);
 
   const init_state = {
     btc: ['', ''],
     eth: ['', ''],
     doge: ['', ''],
     shib: ['', '']
-  }
+  };
   const [topcoin, setTopcoin] = useState(init_state);
   const [allSymbol, setAllSymbol] = useState([]);
   const CRYTOCOMPARE_API_KEY = '22ecd4c3d9ba9629fe8555875cb826598533e729ef38e46af033f4f6fdec2802';
+  // const trade_api = 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=TUPE,AUD,NZD,LKR,INR,BTC,ETH,BNB,TAUD,USDT,SHIB';
+
 
   const apiFunction = async () => {
     var all_coins = [];
@@ -41,8 +46,10 @@ const MarketScreen = () => {
         const new_data = [];
         res.data.map((item, index)=>{
           item.sort_number = index + 1;
+          if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
           new_data.push(item);
-        })
+        });
+        setTradePrice(tradeTypes);
         all_coins = [...new_data];
         const btc = res.data.find(x=>x.symbol === "btc");
         const eth = res.data.find(x=>x.symbol === "eth");
@@ -71,8 +78,10 @@ const MarketScreen = () => {
           const new_data_1 = [];
           res.data.map((item, index)=>{
             item.sort_number = index + data.length;
+            if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
             new_data_1.push(item);
           })
+          setTradePrice(tradeTypes);
           const merge_data = all_coins.concat(new_data_1);
           setData(merge_data);
           res.data.map(item=>{
@@ -83,7 +92,7 @@ const MarketScreen = () => {
         }
       })
       .catch(error => console.log(error));
-    }, 100 * 1)
+    }, 100 * 1);
   }
 
 
@@ -116,6 +125,8 @@ const MarketScreen = () => {
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
             if (json.PRICE !== undefined) insert_item.current_price = json.PRICE;
             if (json.CURRENTSUPPLYMKTCAP !== undefined) insert_item.market_cap = json.VOLUME24HOUR;
+            if (trade_price[json.FROMSYMBOL] !== undefined && json.PRICE !== undefined) trade_price[json.FROMSYMBOL] = json.PRICE;
+            setTradePrice(trade_price);
 
             const findIndex = data.findIndex(x=>x.symbol === insert_item.symbol);
             if (findIndex > -1) {
@@ -160,32 +171,9 @@ const MarketScreen = () => {
 
   const handleTopButtonEvent = (type) => {
     setTradeType(type);
-    // clearInterval()
-    if (type === 'Favorites') {
-      setShowTrade(false);
-
-    } else {
-      setShowTrade(true);
-      
-    }
+    const multiple = trade_price[type];
+    setMulti(multiple);
   }
-
-  useEffect(()=>{
-    const tsyms = "BNB,BTC";
-    const api = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${tradeType}&tsyms=${tsyms}`;
-    let checkViewerCountInterval = 0;
-    if (tradeType != '' && tradeType != 'Favorites') {
-      checkViewerCountInterval = setInterval(async () => {
-        axios.get(api).then(res=>{
-          if (res && res.data && res.data.RAW && res.data.RAW[tradeType]) {
-  
-            setTrade({...res.data.RAW[tradeType]});
-          }
-        })
-      }, 1000 * 3);
-    }
-    return () => clearInterval(checkViewerCountInterval);
-  },[tradeType])
 
   return (
     <>
@@ -198,74 +186,45 @@ const MarketScreen = () => {
           topButtonEvent={handleTopButtonEvent}
           type={tradeType}
         />
-
-        {showTrade ? (
-          <table className='data-table' style={{width:"50%", margin:"0 auto"}}>
+        
+        {filteredCoins && filteredCoins.length > 0 && (
+          <table className='data-table'>
             <thead>
               <tr>
-                <th className='markFavorite left'>Pair</th>
-                <th className='responsive-hide2 right'>Price</th>
-                <th className='right'>Change</th>
+                <th className='markFavorite left'>
+                  {/* <i className='markFavorite-icon material-icons'>star_border</i> */}
+                  <span style={{marginLeft: 35}}>#</span>
+                </th>
+                <th className='left'>Coin</th>
+                <th className='left'>&nbsp;</th>
+                <th className='right'>Price</th>
+                <th className='right'>24H Change</th>
+                <th className='right responsive-hide2'>24H High</th>
+                <th className='right responsive-hide2'>24H Low</th>
+                <th className='right responsive-hide'>24H Volume</th>
               </tr>
             </thead>
             <tbody>
-              {Object.keys(trade).length > 0 && Object.keys(trade).map(key=>(
+              {filteredCoins.map((item, index) => (
                 <>
-                  {trade[key].FROMSYMBOL == tradeType && (
-                    <tr key={key}>
-                      <td style={{width: "20%"}}>
-                        {trade[key].FROMSYMBOL}/{key}
-                      </td>
-                      <td className='right' style={{width: "40%"}}>{trade[key].PRICE}</td>
-                      <td style={{width: "40%"}} className={'right ' + (trade[key].CHANGE24HOUR > 0 ? 'green' : (trade[key].CHANGE24HOUR < 0 ? 'red' : ''))}>{trade[key].CHANGE24HOUR}%</td>
-                    </tr>
+                  {index >= (current_page - 1) * 20 && index < current_page *20 && (
+                    <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple}/>
+
                   )}
                 </>
               ))}
             </tbody>
+            
           </table>
-        ):(
-          <>
-            {filteredCoins && filteredCoins.length > 0 && (
-              <table className='data-table'>
-                <thead>
-                  <tr>
-                    <th className='markFavorite left'>
-                      {/* <i className='markFavorite-icon material-icons'>star_border</i> */}
-                      <span style={{marginLeft: 35}}>#</span>
-                    </th>
-                    <th className='left'>Coin</th>
-                    <th className='left'>&nbsp;</th>
-                    <th className='right'>Price</th>
-                    <th className='right'>24H Change</th>
-                    <th className='right responsive-hide2'>24H High</th>
-                    <th className='right responsive-hide2'>24H Low</th>
-                    <th className='right responsive-hide'>24H Volume</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredCoins.map((item, index) => (
-                    <>
-                      {index >= (current_page - 1) * 20 && index < current_page *20 && (
-                        <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} />
-
-                      )}
-                    </>
-                  ))}
-                </tbody>
-                
-              </table>
-            )}
-            <div style={{display: 'flex'}}>
-              <Pagination
-                items={filteredCoins}
-                initialPage={current_page}
-                onChangePage={onChangePage}
-                pageSize={20}
-              />
-            </div>
-          </>
         )}
+        <div style={{display: 'flex'}}>
+          <Pagination
+            items={filteredCoins}
+            initialPage={current_page}
+            onChangePage={onChangePage}
+            pageSize={20}
+          />
+        </div>
 
       </SiteLayout>
       <Footer />
