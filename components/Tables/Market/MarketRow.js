@@ -11,7 +11,11 @@ const MarketRow = memo(({ item, index, multiple }) => {
       setColor('red');
     }
   }, []);
-  const price = parseFloat(item.price_change_percentage_24h).toFixed(2);
+  const price = item.price_change_percentage_24h;
+
+  function round(x) {
+    return (Math.round(x * 100000000) / 100000000);
+  }
 
   return (
     <tr>
@@ -30,15 +34,15 @@ const MarketRow = memo(({ item, index, multiple }) => {
       </td>
       <td className='right' style={{width: 150}}>
         <strong>
-          {(item.current_price/multiple).toLocaleString()} {item.currency}
+          {round(item.current_price/multiple)} {item.currency}
         </strong>
       </td>
       <td className='right'>
-        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {price}%</strong>
+        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price/multiple)}%</strong>
       </td>
-      <td className='right responsive-hide2'>{item.high_24h/multiple}</td>
-      <td className='right responsive-hide2'>{item.low_24h/multiple}</td>
-      <td className='right' style={{width: 300}}>${item.market_cap.toLocaleString()}</td>
+      <td className='right responsive-hide2'>{round(item.high_24h/multiple)}</td>
+      <td className='right responsive-hide2'>{round(item.low_24h/multiple)}</td>
+      <td className='right' style={{width: 300}}>${(round(item.market_cap/multiple)).toLocaleString()}</td>
     </tr>
   );
 });

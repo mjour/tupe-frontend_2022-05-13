@@ -109,6 +109,7 @@ const MarketScreen = () => {
       const push_item =  '5~CCCAGG~' + item + '~USD';
       subs.push(push_item);
     });
+    const controller = new AbortController();
     const apiCall = {action: 'SubAdd',subs};
     const url = 'wss://streamer.cryptocompare.com/v2?api_key=' + CRYTOCOMPARE_API_KEY;
     const isBrowser = typeof window !== "undefined";
@@ -148,6 +149,7 @@ const MarketScreen = () => {
         }
       };
     }
+    return () => controller.abort();
   }, [allSymbol]);
 
   const handleSearchValue = (e) => {
