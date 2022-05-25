@@ -40,7 +40,7 @@ const MarketRow = memo(({ item, index, multiple }) => {
         </strong>
       </td>
       <td className='right'>
-        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price/multiple)}%</strong>
+        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price)}%</strong>
       </td>
       <td className='right responsive-hide2'>{round(item.high_24h/multiple)}</td>
       <td className='right responsive-hide2'>{round(item.low_24h/multiple)}</td>

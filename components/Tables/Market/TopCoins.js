@@ -1,7 +1,9 @@
 import { memo } from 'react';
 
 function round(x) {
+  if (x == '') return'';
   const parsefloat = parseFloat(x).toFixed(5);
+  if (parsefloat == '') return'';
   const integer = parsefloat.split('.');
   return Number(integer[0]).toLocaleString() + '.' + integer[1];
 }

@@ -16,7 +16,6 @@ const MarketScreen = () => {
   const [token, setToken] = useState('');
   const [current_page, setCurrentPage] = useState(1);
   const [trade, setTrade] = useState({});
-  const [showTrade, setShowTrade] = useState(false);
   const [tradeType, setTradeType] = useState('Favorites');
   const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':0.71, 'NZD':0.65, 'LKR':0.0028, 'INR':0.013, 'BTC':29609.7, 'ETH':1969.82, 'BNB':328.11, 'TAUD':1.9107635219957542, 'USDT':1, 'SHIB':0.00001};
   const [trade_price, setTradePrice] = useState(tradeTypes);
@@ -179,8 +178,6 @@ const MarketScreen = () => {
     const multiple = trade_price[type];
     setMulti(multiple);
   }
-
-  console.log(trade_price)
 
   return (
     <>
