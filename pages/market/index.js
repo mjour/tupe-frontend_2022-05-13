@@ -20,6 +20,8 @@ const MarketScreen = () => {
   const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':0.71, 'NZD':0.65, 'LKR':0.0028, 'INR':0.013, 'BTC':29609.7, 'ETH':1969.82, 'BNB':328.11, 'TAUD':1.9107635219957542, 'USDT':1, 'SHIB':0.00001};
   const [trade_price, setTradePrice] = useState(tradeTypes);
   const [multiple, setMulti] = useState(1);
+  const [unit, setUnit] = useState('$');
+  const unit_list = {'Favorites':'$', 'TUPE':'$', 'AUD':'A$', 'NZD':'NZ$', 'LKR':'LKR', 'INR':'₹', 'BTC':'₿', 'ETH':'Ξ', 'BNB':'BNB', 'TAUD':'$', 'USDT':'$', 'SHIB':'SHIB'};
 
   const init_state = {
     btc: ['', ''],
@@ -177,18 +179,20 @@ const MarketScreen = () => {
     setTradeType(type);
     const multiple = trade_price[type];
     setMulti(multiple);
+    setUnit(unit_list[type]);
   }
 
   return (
     <>
       <SiteLayout>
-        <TopCoins topcoin={topcoin}/>
+        <TopCoins topcoin={topcoin} unit={unit}/>
         <TopBar
           searchValue={keyword}
           searchOnChange={handleSearchValue}
           searchSubmit={handleSearchSubmit}
           topButtonEvent={handleTopButtonEvent}
           type={tradeType}
+          unit={unit}
         />
         
         {filteredCoins && filteredCoins.length > 0 && (
@@ -212,7 +216,7 @@ const MarketScreen = () => {
               {filteredCoins.map((item, index) => (
                 <>
                   {index >= (current_page - 1) * 20 && index < current_page *20 && (
-                    <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple}/>
+                    <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
 
                   )}
                 </>

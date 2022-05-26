@@ -9,7 +9,7 @@ function round(x) {
 }
 
 
-const TopCoins = memo(({topcoin}) => (
+const TopCoins = memo(({topcoin, unit}) => (
   <div className='topcoins'>
     <div className='flex flex-space-between list-box'>
       <div className='item'>
@@ -23,7 +23,7 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>BTC</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${round(topcoin.btc[0])}</p>
+          <p>{unit}{round(topcoin.btc[0])}</p>
           <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1] > 0 ? '+' : ''}{round(topcoin.btc[1])}%</p>
         </div>
       </div>
@@ -38,7 +38,7 @@ const TopCoins = memo(({topcoin}) => (
           <p>ETH</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${round(topcoin.eth[0])}</p>
+          <p>{unit}{round(topcoin.eth[0])}</p>
           <p className={topcoin.eth[1] > 0 ? 'green': 'red'}>{topcoin.eth[1] > 0 ? '+' : ''}{round(topcoin.eth[1])}%</p>
         </div>
       </div>
@@ -53,7 +53,7 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>DOGE</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${round(topcoin.doge[0])}</p>
+          <p>{unit}{round(topcoin.doge[0])}</p>
           <p className={topcoin.doge[1] > 0 ? 'green': 'red'}>{topcoin.doge[1] > 0 ? '+' : ''}{round(topcoin.doge[1])}%</p>
         </div>
       </div>
@@ -68,7 +68,7 @@ const TopCoins = memo(({topcoin}) => (
           <p style={{marginLeft: 5}}>SHIB</p>
         </div>
         <div className='flex flex-v-center flex-space-between'>
-          <p>${round(topcoin.shib[0])}</p>
+          <p>{unit}{round(topcoin.shib[0])}</p>
           <p className={topcoin.shib[1] > 0 ? 'green': 'red'}>{topcoin.shib[1] > 0 ? '+' : ''}{round(topcoin.shib[1])}%</p>
         </div>
       </div>
