@@ -16,7 +16,7 @@ const TopBar = memo(({ searchValue, searchOnChange, searchSubmit, topButtonEvent
           value={searchValue}
         />
         <button type='submit' className='pointer'>
-          <i className='material-icons'>search</i>
+          {/* <i className='material-icons'>search</i> */}
         </button>
       </form>
     </div>

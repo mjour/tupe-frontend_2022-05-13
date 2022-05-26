@@ -167,7 +167,7 @@ const MarketScreen = () => {
   };
 
   const filteredCoins = data.filter(coin =>
-    coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase())
+    (coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase()) || (coin.symbol !== undefined && coin.symbol.toLowerCase().includes(keyword.toLowerCase())))
   );
 
 
