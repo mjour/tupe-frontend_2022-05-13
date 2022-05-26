@@ -21,7 +21,7 @@ const MarketScreen = () => {
   const [trade_price, setTradePrice] = useState(tradeTypes);
   const [multiple, setMulti] = useState(1);
   const [unit, setUnit] = useState('$');
-  const unit_list = {'Favorites':'$', 'TUPE':'$', 'AUD':'A$', 'NZD':'NZ$', 'LKR':'LKR', 'INR':'₹', 'BTC':'₿', 'ETH':'Ξ', 'BNB':'BNB', 'TAUD':'$', 'USDT':'$', 'SHIB':'SHIB'};
+  const unit_list = {'Favorites':'$', 'TUPE':'TUPE', 'AUD':'A$', 'NZD':'NZ$', 'LKR':'LKR', 'INR':'₹', 'BTC':'₿', 'ETH':'Ξ', 'BNB':'BNB', 'TAUD':'TAUD', 'USDT':'USDT', 'SHIB':'SHIB'};
 
   const init_state = {
     btc: ['', ''],
@@ -129,7 +129,8 @@ const MarketScreen = () => {
               insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
               insert_item.current_price = json.PRICE;
             }
-            if (json.CURRENTSUPPLYMKTCAP !== undefined) insert_item.market_cap = json.CIRCULATINGSUPPLYMKTCAP;
+            console.log("json = ", json)
+            if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
             if (trade_price[json.FROMSYMBOL] !== undefined && json.PRICE !== undefined) trade_price[json.FROMSYMBOL] = json.PRICE;
             setTradePrice(trade_price);
 
