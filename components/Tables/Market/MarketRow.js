@@ -44,7 +44,7 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
       </td>
       <td className='right responsive-hide2'>{round(item.high_24h/multiple)}</td>
       <td className='right responsive-hide2'>{round(item.low_24h/multiple)}</td>
-      <td className='right' style={{width: 300}}>{unit}{(round(item.total_volume/multiple)).toLocaleString()}</td>
+      <td className='right' style={{width: 300}}>{(round(item.total_volume/multiple/1000000))}M</td>
     </tr>
   );
 });
