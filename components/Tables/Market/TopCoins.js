@@ -13,7 +13,7 @@ function round(x, fix = 5) {
 const TopCoins = memo(({topcoin, unit}) => (
   <div className='topcoins'>
     <div className='flex flex-space-between list-box'>
-      <Link href='\exchange'>
+      <Link href='/exchange'>
         <div className='item'>
           <div className='flex flex-v-center'>
             <div
@@ -30,7 +30,7 @@ const TopCoins = memo(({topcoin, unit}) => (
           </div>
         </div>
       </Link>
-      <Link href='\exchange'>
+      <Link href='/exchange'>
         <div className='item'>
           <div className='flex flex-v-center'>
             <div
@@ -47,7 +47,7 @@ const TopCoins = memo(({topcoin, unit}) => (
           </div>
         </div>
       </Link>
-      <Link href='\exchange'>
+      <Link href='/exchange'>
         <div className='item'>
           <div className='flex flex-v-center'>
             <div
@@ -64,7 +64,7 @@ const TopCoins = memo(({topcoin, unit}) => (
           </div>
         </div>
       </Link>
-      <Link href='\exchange'>
+      <Link href='/exchange'>
         <div className='item'>
           <div className='flex flex-v-center'>
             <div

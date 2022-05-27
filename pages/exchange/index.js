@@ -19,14 +19,14 @@ const ExchangeScreen = () => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
 
-    if (localToken && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() === 'production') {
-      router.push('/home');
-    } else if (!localToken) {
-      router.push('/');
-    }
+    // if (localToken && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() === 'production') {
+    //   router.push('/home');
+    // } else if (!localToken) {
+    //   router.push('/');
+    // }
   }, []);
 
-  if (token && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() !== 'production') {
+  // if (token && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() !== 'production') {
     return (
       <>
         <SiteLayout>
@@ -46,9 +46,9 @@ const ExchangeScreen = () => {
         <Footer />
       </>
     );
-  }
+  // }
 
-  return <span>Redirecting to home page</span>;
+  // return <span>Redirecting to home page</span>;
 };
 
 export default ExchangeScreen;

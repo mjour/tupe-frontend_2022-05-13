@@ -107,7 +107,9 @@ const MarketScreen = () => {
     const subs = [];
     if (allSymbol.length === 0) return;
     allSymbol.map(item=>{
-      const push_item =  '5~CCCAGG~' + item + '~USD';
+      // const push_item =  '24~Coinbase~' + item + '~USD~D';
+      const push_item = '5~CCCAGG~' + item + '~USD';
+      // const push_item =  '21~' + item;
       subs.push(push_item);
     });
     const controller = new AbortController();
@@ -122,6 +124,7 @@ const MarketScreen = () => {
       ws.onmessage = function (event) {
         const json = JSON.parse(event.data);
         try {
+          console.log("json = ", json)
           if (json.FROMSYMBOL !== undefined) {
             const new_data = cloneDeep(data);
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
@@ -129,8 +132,7 @@ const MarketScreen = () => {
               insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
               insert_item.current_price = json.PRICE;
             }
-            console.log("json = ", json)
-            if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
+            // if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
             if (trade_price[json.FROMSYMBOL] !== undefined && json.PRICE !== undefined) trade_price[json.FROMSYMBOL] = json.PRICE;
             setTradePrice(trade_price);
 
