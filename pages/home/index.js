@@ -8,7 +8,7 @@ import MainLayout from '../../layouts/MainLayout';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import CooperativePartners from '../../components/Widgets/CooperativePartners/CoopPartners';
-import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
+// import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -49,9 +49,9 @@ export default function HomeScreen() {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
 
-    if (!localToken) {
-      router.push('/');
-    }
+    // if (!localToken) {
+    //   router.push('/');
+    // }
 
     document.body.setAttribute('style', 'min-width: auto;');
   }, []);
@@ -95,7 +95,7 @@ export default function HomeScreen() {
                 </p> */}
               </div>
               <div data-v-4654f51e className='banner-index-poster-box'>
-                <EventCarousel />
+                {/* <EventCarousel /> */}
                 <div data-v-4654f51e className='banner-index-quotations'>
                   <div data-v-4654f51e className='fixed_term'>
                     <div data-v-a2f3dc54 data-v-4654f51e className='rate-wrap'>
@@ -106,7 +106,7 @@ export default function HomeScreen() {
                               APY of Investment Products
                             </div>
                           </div>
-                          <div data-v-a2f3dc54 className='rate-marquee2 col-xs-6 col-md-6 col-sm-6' style={{display: "none"}}>
+                          <div data-v-a2f3dc54 className='rate-marquee2 col-xs-6 col-md-6 col-sm-6'>
                             <ul data-v-a2f3dc54 className='item-list3'>
                               <li data-v-a2f3dc54='' className='rate-item'>
                                 <div data-v-a2f3dc54='' className='rate-item-content2'>
