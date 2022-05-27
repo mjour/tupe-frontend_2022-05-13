@@ -61,6 +61,12 @@ export default function HomeScreen() {
     width: 'inherit',
   };
 
+  const spotStyle = {
+    marginTop: 50,
+    minWidth: 'auto',
+    width: 'inherit',
+  }
+
   return (
     <MainLayout>
       <Head>
@@ -2076,7 +2082,7 @@ export default function HomeScreen() {
               </div>
             </div>
           </div>
-          <div className='markets-data common-width' style={commonWidthStyle}>
+          <div className='markets-data common-width' style={spotStyle}>
             <ol className='exchange-type'>
               <li className='active-type'>Spot Trading</li>
             </ol>
