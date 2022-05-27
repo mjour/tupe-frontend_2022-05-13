@@ -95,7 +95,7 @@ const MarketScreen = () => {
       axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
         if (res && res.data && res.data.data)   {
           res.data.data.map(item=>{
-            let index = all_coins.findIndex(x=>x.symbol === item.name.toLowerCase());
+            const index = all_coins.findIndex(x=>x.symbol === item.name.toLowerCase());
             if (index > -1) {
               if (item.volume !== undefined) {
                 all_coins[index].total_volume = item.volume/1000000;
