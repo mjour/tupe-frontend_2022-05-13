@@ -11,6 +11,7 @@ import {isNil, cloneDeep} from "lodash";
 
 const MarketScreen = () => {
   const router = useRouter();
+  const[loaded, setLoaded] = useState(false);
   const [data, setData] = useState([]);
   const [keyword, setKeyword] = useState('');
   const [token, setToken] = useState('');
@@ -38,10 +39,9 @@ const MarketScreen = () => {
   const apiFunction = async () => {
     var all_coins = [];
     var all_symbols = [];
+
     await axios
-    .get(
-      'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false'
-    )
+    .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false')
     .then(res => {
       if (res && res.data) {
         const new_data = [];
@@ -71,9 +71,7 @@ const MarketScreen = () => {
 
     setTimeout(()=>{
       axios
-      .get(
-        'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=2&sparkline=false'
-      )
+      .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=2&sparkline=false')
       .then(res => {
         if (res && res.data) {
           const new_data_1 = [];
@@ -83,17 +81,33 @@ const MarketScreen = () => {
             new_data_1.push(item);
           })
           setTradePrice(tradeTypes);
-          const merge_data = all_coins.concat(new_data_1);
-          setData(merge_data);
+          all_coins = all_coins.concat(new_data_1);
           res.data.map(item=>{
             if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
             all_symbols.push(item.symbol.toUpperCase());
           })
-          setAllSymbol([...all_symbols])
+          
         }
       })
-      .catch(error => console.log(error));
-    }, 100 * 1);
+      .catch();
+    }, 100);
+    setTimeout(()=>{
+      axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
+        if (res && res.data && res.data.data)   {
+          res.data.data.map(item=>{
+            let index = all_coins.findIndex(x=>x.symbol === item.name.toLowerCase());
+            if (index > -1) {
+              if (item.volume !== undefined) {
+                all_coins[index].total_volume = item.volume/1000000;
+              }
+            }
+          })
+          setData(all_coins);
+          setAllSymbol([...all_symbols])
+          setLoaded(true);
+        }
+      })
+    }, 100)
   }
 
 
@@ -106,6 +120,7 @@ const MarketScreen = () => {
   useEffect(()=>{
     const subs = [];
     if (allSymbol.length === 0) return;
+    if (data.length === 0) return;
     allSymbol.map(item=>{
       // const push_item =  '24~Coinbase~' + item + '~USD~D';
       const push_item = '5~CCCAGG~' + item + '~USD';
@@ -124,11 +139,10 @@ const MarketScreen = () => {
       ws.onmessage = function (event) {
         const json = JSON.parse(event.data);
         try {
-          console.log("json = ", json)
           if (json.FROMSYMBOL !== undefined) {
             const new_data = cloneDeep(data);
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
-            if (json.PRICE !== undefined) {
+            if (insert_item !== undefined && json.PRICE !== undefined) {
               insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
               insert_item.current_price = json.PRICE;
             }
@@ -140,6 +154,7 @@ const MarketScreen = () => {
             if (findIndex > -1) {
               new_data[findIndex] = {...insert_item};
             }
+            // if (new_data.length > 0) 
             setData([...new_data]);
             const btc = data.find(x=>x.symbol === "btc");
             const eth = data.find(x=>x.symbol === "eth");
@@ -187,57 +202,59 @@ const MarketScreen = () => {
 
   return (
     <>
-      <SiteLayout>
-        <TopCoins topcoin={topcoin} unit={unit}/>
-        <TopBar
-          searchValue={keyword}
-          searchOnChange={handleSearchValue}
-          searchSubmit={handleSearchSubmit}
-          topButtonEvent={handleTopButtonEvent}
-          type={tradeType}
-          unit={unit}
-        />
-        
-        {filteredCoins && filteredCoins.length > 0 && (
-          <table className='data-table'>
-            <thead>
-              <tr>
-                <th className='markFavorite left'>
-                  {/* <i className='markFavorite-icon material-icons'>star_border</i> */}
-                  <span style={{marginLeft: 35}}>#</span>
-                </th>
-                <th className='left'>Coin</th>
-                <th className='left'>&nbsp;</th>
-                <th className='right'>Price</th>
-                <th className='right'>24H Change</th>
-                <th className='right responsive-hide2'>24H High</th>
-                <th className='right responsive-hide2'>24H Low</th>
-                <th className='right responsive-hide'>24H Volume</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCoins.map((item, index) => (
-                <>
-                  {index >= (current_page - 1) * 20 && index < current_page *20 && (
-                    <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
-
-                  )}
-                </>
-              ))}
-            </tbody>
-            
-          </table>
-        )}
-        <div style={{display: 'flex'}}>
-          <Pagination
-            items={filteredCoins}
-            initialPage={current_page}
-            onChangePage={onChangePage}
-            pageSize={20}
+      {loaded && (
+        <SiteLayout>
+          <TopCoins topcoin={topcoin} unit={unit}/>
+          <TopBar
+            searchValue={keyword}
+            searchOnChange={handleSearchValue}
+            searchSubmit={handleSearchSubmit}
+            topButtonEvent={handleTopButtonEvent}
+            type={tradeType}
+            unit={unit}
           />
-        </div>
+          
+          {filteredCoins && filteredCoins.length > 0 && (
+            <table className='data-table'>
+              <thead>
+                <tr>
+                  <th className='markFavorite left'>
+                    {/* <i className='markFavorite-icon material-icons'>star_border</i> */}
+                    <span style={{marginLeft: 35}}>#</span>
+                  </th>
+                  <th className='left'>Coin</th>
+                  <th className='left'>&nbsp;</th>
+                  <th className='right'>Price</th>
+                  <th className='right'>24H Change</th>
+                  <th className='right responsive-hide2'>24H High</th>
+                  <th className='right responsive-hide2'>24H Low</th>
+                  <th className='right responsive-hide'>24H Volume</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredCoins.map((item, index) => (
+                  <>
+                    {index >= (current_page - 1) * 20 && index < current_page *20 && (
+                      <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
 
-      </SiteLayout>
+                    )}
+                  </>
+                ))}
+              </tbody>
+              
+            </table>
+          )}
+          <div style={{display: 'flex'}}>
+            <Pagination
+              items={filteredCoins}
+              initialPage={current_page}
+              onChangePage={onChangePage}
+              pageSize={20}
+            />
+          </div>
+
+        </SiteLayout>
+      )}
       <Footer />
     </>
   );

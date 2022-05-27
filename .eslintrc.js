@@ -42,7 +42,7 @@ module.exports = {
     // 'perfect-const': 'warn',
     'no-shadow': 'warn',
     'no-useless-escape': 'warn',
-    camelcase: 'never',
+    camelcase: 'off',
     'vars-on-top': 'warn',
     'import/order': 'warn',
     'react/jsx-no-useless-fragment': 'warn',
