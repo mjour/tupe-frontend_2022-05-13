@@ -106,7 +106,7 @@ export default function HomeScreen() {
                               APY of Investment Products
                             </div>
                           </div>
-                          <div data-v-a2f3dc54 className='rate-marquee2 col-xs-6 col-md-6 col-sm-6'>
+                          <div data-v-a2f3dc54 className='rate-marquee2 col-xs-6 col-md-6 col-sm-6' style={{display: "none"}}>
                             <ul data-v-a2f3dc54 className='item-list3'>
                               <li data-v-a2f3dc54='' className='rate-item'>
                                 <div data-v-a2f3dc54='' className='rate-item-content2'>
