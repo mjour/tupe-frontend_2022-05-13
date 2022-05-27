@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Link from 'next/link';
 
-function round(x, fix = 5) {
+function round(x, fix = 8) {
   if (x == '') return'';
   const parsefloat = parseFloat(x).toFixed(fix);
   if (parsefloat == '') return'';

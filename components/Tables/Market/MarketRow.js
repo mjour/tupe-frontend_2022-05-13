@@ -14,7 +14,7 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
   const price = item.price_change_percentage_24h;
 
   function round(x) {
-    const parsefloat = parseFloat(x).toFixed(5);
+    const parsefloat = parseFloat(x).toFixed(8);
     const integer = parsefloat.split('.');
     return Number(integer[0]).toLocaleString() + '.' + integer[1];
   }
