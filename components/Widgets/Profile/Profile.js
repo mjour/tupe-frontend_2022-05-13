@@ -34,9 +34,38 @@ const Profile = memo(() => (
       </div>
       <div className='box-horizontal-padding'>
         <div className='center'>
-          <h3>IceFrogMate</h3>
-          <strong>Level 1</strong>
-          <p>You have to upgrade to Level 2 to increase limit</p>
+          {/* <h3>IceFrogMate</h3> */}
+          <h3>Mark James</h3>
+          {/* <strong>Level 1</strong> */}
+          <a
+            target='_blank'
+            href='https://www.linkedin.com/in/mark-james-43082420a/'
+            rel='noreferrer'
+          >
+            LinkedIn
+          </a>
+          <br/>
+          {/* <p>You have to upgrade to Level 2 to increase limit</p> */}
+          <a target='_blank' href='https://github.com/markjames12210' rel="noreferrer">
+            Ghithub
+          </a>
+          <br/>
+          <a
+            target='_blank'
+            href='https://www.facebook.com/profile.php?id=100079244832865'
+            rel='noreferrer'
+          >
+            FaceBook
+          </a>
+          <br/>
+          <a
+            target='_blank'
+            href='https://t.me/markjames1221'
+            rel='noreferrer'
+          >
+            Telegram
+          </a>
+          <br/>
           <Link href='/members/application'>Upgrade to Level 2</Link>
         </div>
       </div>
