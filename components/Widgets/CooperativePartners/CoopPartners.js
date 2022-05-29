@@ -54,11 +54,11 @@ const coopPartners = memo(() => (
           <img src='/coopPartners/BUSD.png' alt='' />
         </a>
       </div>
-      <div className='partnerBox'>
+      {/* <div className='partnerBox'>
         <a href='https://www.coinplay.shop/' className='partner' target='_blank' rel='noreferrer'>
           <img src='/coopPartners/coinplay.png' alt='' />
         </a>
-      </div>
+      </div> */}
       <div className='partnerBox'>
         <a href='https://cryptorank.io/' className='partner' target='_blank' rel='noreferrer'>
           <img src='/coopPartners/cryptorank.png' alt='' />

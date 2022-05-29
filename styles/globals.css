@@ -4621,6 +4621,11 @@ img {
 .index-page .start-trading a.btn1 {
   background-color: #03a785;
 }
+.index-page .start-trading a.btn2 {
+  background-color: transparent;
+  border: 1px solid #03a785;
+  margin-left: 18px;
+}
 .index-page .start-trading a {
   display: inline-block;
   font-size: 18px;
@@ -4769,7 +4774,8 @@ img {
       padding: 1rem;
   }
   .index-page .mobile-banner-right {
-      width: 30vw;
+      /* width: 30vw; */
+      display:none;
   }
   .partnerBoard .partnerBox {
       width: 25%;

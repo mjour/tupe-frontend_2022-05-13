@@ -15,17 +15,17 @@ export default function HomeScreen() {
   const [token, setToken] = useState('');
   const marketChartProps = {
     width: '100%',
-    height: 450,
+    height: 350,
     symbolsGroups: [
       {
         name: 'Coins',
         originalName: 'Indices',
         symbols: [
           {
-            name: 'BITSTAMP:BTCUSD',
+            name: 'COINBASE:ETHUSD',
           },
           {
-            name: 'COINBASE:ETHUSD',
+            name: 'BITSTAMP:BTCUSD',
           },
           {
             name: 'BINANCE:SHIBUSDT',
@@ -65,7 +65,7 @@ export default function HomeScreen() {
     marginTop: 50,
     minWidth: 'auto',
     width: 'inherit',
-  }
+  };
 
   return (
     <MainLayout>
@@ -2258,8 +2258,11 @@ export default function HomeScreen() {
                 Start Trading Now
               </p>
               <div className='btn-wrap'>
-                <a href='/exchange' className='btn1' data-nsfw-filter-status='swf'>
+                <a href='/market' className='btn1' data-nsfw-filter-status='swf'>
                   Trade now
+                </a>
+                <a href='/members/signup/' className='btn2' data-nsfw-filter-status='swf'>
+                  Register now
                 </a>
               </div>
             </div>

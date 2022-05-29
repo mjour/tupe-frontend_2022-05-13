@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import { useUserAgent } from 'next-useragent';
 import '../styles/globals.css';
+import '../styles/style.scss';
 
 function MyApp({ Component, pageProps }) {
   let viewportContent = 'width=device-width, minimum-scale=0, maximum-scale=1.0';

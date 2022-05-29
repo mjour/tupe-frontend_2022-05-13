@@ -1,5 +1,6 @@
 import { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import {isNil} from 'lodash';
 
 const MarketRow = memo(({ item, index, multiple, unit }) => {
   const [color, setColor] = useState('');
@@ -21,30 +22,30 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
 
   return (
     <tr>
-      <td className='markFavorite' style={{width:80}}>
+      <td className='markFavorite' style={{width:"5%"}}>
         <div className='markFavorite-icon'>
           <i className='material-icons'>star_border</i>
           <span style={{marginLeft:5, marginTop: 7, display:"inline-flex", verticalAlign:"top"}}>{index}</span>
         </div>
       </td>
-      <td className='nowrap'>
+      <td className='nowrap' style={{width:"5%"}}>
         <div className='icon cover' style={{ backgroundImage: `url('${item.image}')` }} />
         <strong>{item.symbol}</strong>
       </td>
-      <td className='nowrap'>
+      <td className='nowrap' style={{width:"20%"}}>
         <strong>{item.name}</strong>
       </td>
-      <td className='right' style={{width: 200}}>
+      <td className='right' style={{width:"14%"}}>
         <strong>
           {unit} {round(item.current_price/multiple)}
         </strong>
       </td>
-      <td className='right'>
+      <td className='right' style={{width:"14%"}}>
         <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price)}%</strong>
       </td>
-      <td className='right responsive-hide2'>{round(item.high_24h/multiple)}</td>
-      <td className='right responsive-hide2'>{round(item.low_24h/multiple)}</td>
-      <td className='right' style={{width: 300}}>{(round(item.total_volume))}M</td>
+      <td className='right responsive-hide2' style={{width:"14%"}}>{round(item.high_24h/multiple)}</td>
+      <td className='right responsive-hide2' style={{width:"14%"}}>{round(item.low_24h/multiple)}</td>
+      <td className='right' style={{width:"14%"}}>{(round(item.total_volume))}M</td>
     </tr>
   );
 });

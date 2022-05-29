@@ -7,7 +7,40 @@ import MarketRow from '../../components/Tables/Market/MarketRow';
 import TopCoins from '../../components/Tables/Market/TopCoins';
 import Footer from '../../components/Footer/Footer';
 import Pagination from '../../components/Common/Pagination';
-import {isNil, cloneDeep} from "lodash";
+import {isNil, cloneDeep, orderBy} from "lodash";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+const arrow = {
+  position: 'relative',
+  right: '15px'
+};
+
+const arrowdown = {
+  position: 'absolute',
+  cursor: 'pointer',
+  bottom: '-8px',
+};
+
+const selectedArrowDown = {
+  position: 'absolute',
+  cursor: 'pointer',
+  bottom: '-8px',
+  color: 'black',
+};
+
+const arrowup = {
+  position: 'absolute',
+  cursor: 'pointer',
+  top: '-5px',
+};
+
+const selectedArrowUp = {
+  position: 'absolute',
+  cursor: 'pointer',
+  top: '-5px',
+  color: 'black',
+};
 
 const MarketScreen = () => {
   const router = useRouter();
@@ -17,6 +50,8 @@ const MarketScreen = () => {
   const [token, setToken] = useState('');
   const [current_page, setCurrentPage] = useState(1);
   const [trade, setTrade] = useState({});
+  const [sortkey, setSortKey] = useState('');
+  const [sortorder, setSortOrder] = useState('');
   const [tradeType, setTradeType] = useState('Favorites');
   const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':0.71, 'NZD':0.65, 'LKR':0.0028, 'INR':0.013, 'BTC':29609.7, 'ETH':1969.82, 'BNB':328.11, 'TAUD':1.9107635219957542, 'USDT':1, 'SHIB':0.00001};
   const [trade_price, setTradePrice] = useState(tradeTypes);
@@ -47,6 +82,7 @@ const MarketScreen = () => {
         const new_data = [];
         res.data.map((item, index)=>{
           item.sort_number = index + 1;
+          if (isNil(item.price_change_percentage_24h)) item.price_change_percentage_24h = 0;
           if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
           new_data.push(item);
         });
@@ -77,6 +113,7 @@ const MarketScreen = () => {
           const new_data_1 = [];
           res.data.map((item, index)=>{
             item.sort_number = index + data.length;
+            if (isNil(item.price_change_percentage_24h)) item.price_change_percentage_24h = 0;
             if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
             new_data_1.push(item);
           })
@@ -142,6 +179,7 @@ const MarketScreen = () => {
           if (json.FROMSYMBOL !== undefined) {
             const new_data = cloneDeep(data);
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
+            if (isNil(insert_item.price_change_percentage_24h)) insert_item.price_change_percentage_24h = 0;
             if (insert_item !== undefined && json.PRICE !== undefined) {
               insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
               insert_item.current_price = json.PRICE;
@@ -195,10 +233,22 @@ const MarketScreen = () => {
 
   const handleTopButtonEvent = (type) => {
     setTradeType(type);
-    const multiple = trade_price[type];
-    setMulti(multiple);
+    const multiple1 = trade_price[type];
+    setMulti(multiple1);
     setUnit(unit_list[type]);
-  }
+  };
+
+  const sort = (key, order) =>{
+    if (key === sortkey && order === sortorder) {
+      setSortKey('');
+      setSortOrder('');
+    } else {
+      setSortKey(key)
+      setSortOrder(order);
+    }
+  };
+
+  const sortedCoins = orderBy(filteredCoins, sortkey, sortorder);
 
   return (
     <>
@@ -214,29 +264,28 @@ const MarketScreen = () => {
             unit={unit}
           />
           
-          {filteredCoins && filteredCoins.length > 0 && (
+          {sortedCoins && sortedCoins.length > 0 && (
             <table className='data-table'>
               <thead>
                 <tr>
-                  <th className='markFavorite left'>
+                  <th className='markFavorite left' style={{width:"5%"}}>
                     {/* <i className='markFavorite-icon material-icons'>star_border</i> */}
                     <span style={{marginLeft: 35}}>#</span>
                   </th>
-                  <th className='left'>Coin</th>
-                  <th className='left'>&nbsp;</th>
-                  <th className='right'>Price</th>
-                  <th className='right'>24H Change</th>
-                  <th className='right responsive-hide2'>24H High</th>
-                  <th className='right responsive-hide2'>24H Low</th>
-                  <th className='right responsive-hide'>24H Volume</th>
+                  <th className='left' style={{width:"5%"}}><span style={{marginRight: 15}}>Coin</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'symbol' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('symbol', 'asc')}/><ArrowDropDownIcon style={sortkey === 'symbol' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('symbol', 'desc')}/></span></th>
+                  <th className='left' style={{width:"20%"}}>&nbsp;</th>
+                  <th className='right' style={{width:"14%"}}><span style={{marginRight: 15}}>Price</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'current_price' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('current_price', 'asc')}/><ArrowDropDownIcon style={sortkey === 'current_price' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('current_price', 'desc')}/></span></th>
+                  <th className='right' style={{width:"14%"}}><span style={{marginRight: 15}}>24H Change</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'price_change_percentage_24h' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('price_change_percentage_24h', 'asc')}/><ArrowDropDownIcon style={sortkey === 'price_change_percentage_24h' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('price_change_percentage_24h', 'desc')}/></span></th>
+                  <th className='right responsive-hide2' style={{width:"14%"}}><span style={{marginRight: 15}}>24H High</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'high_24h' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('high_24h', 'asc')}/><ArrowDropDownIcon style={sortkey === 'high_24h' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('high_24h', 'desc')}/></span></th>
+                  <th className='right responsive-hide2' style={{width:"14%"}}><span style={{marginRight: 15}}>24H Low</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'low_24h' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('low_24h', 'asc')}/><ArrowDropDownIcon style={sortkey === 'low_24h' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('low_24h', 'desc')}/></span></th>
+                  <th className='right responsive-hide' style={{width:"14%"}}><span style={{marginRight: 15}}>24H Volume</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'total_volume' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('total_volume', 'asc')}/><ArrowDropDownIcon style={sortkey === 'total_volume' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('total_volume', 'desc')}/></span></th>
                 </tr>
               </thead>
               <tbody>
-                {filteredCoins.map((item, index) => (
+                {sortedCoins.map((item, index) => (
                   <>
                     {index >= (current_page - 1) * 20 && index < current_page *20 && (
                       <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
-
                     )}
                   </>
                 ))}
@@ -246,7 +295,7 @@ const MarketScreen = () => {
           )}
           <div style={{display: 'flex'}}>
             <Pagination
-              items={filteredCoins}
+              items={sortedCoins}
               initialPage={current_page}
               onChangePage={onChangePage}
               pageSize={20}

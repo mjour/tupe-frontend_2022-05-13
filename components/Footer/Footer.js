@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -6,8 +6,12 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Box, Container, Row, Column, FooterLink, Heading } from './FooterStyles';
+import axios from 'axios';
+import { isEmpty } from 'lodash';
 
+const trading_list = ['TUPE', 'AUD', 'NZD', 'LKR', 'INR', 'BTC', 'ETH', 'BNB', 'TAUD', 'USDT', 'SHIB'];
 const Footer = ({ responsive }) => {
+  const [trading_value, setTradingValue] = useState([]);
   const toggleAccordion = (elementId) => {
     const accordionContainer = document.getElementById('footerAccordion');
     const accordions = accordionContainer.querySelectorAll(':scope > .accordion');
@@ -30,6 +34,52 @@ const Footer = ({ responsive }) => {
       toggleAccordion();
     }
   };
+
+  useEffect(()=>{
+
+    axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
+      if (res && res.data && res.data.data)   {
+        res.data.data.map(item=>{
+          const find_index = trading_list.indexOf(item.mapperName);
+          if (find_index > -1 && item.volume !== undefined && item.volume != null) {
+            trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
+            setTradingValue([...trading_value]);
+          }
+        })
+      }
+    })
+
+    const checkViewerCountInterval = setInterval(async () => {
+      
+      axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
+        if (res && res.data && res.data.data)   {
+          res.data.data.map(item=>{
+            const find_index = trading_list.indexOf(item.mapperName);
+            if (find_index > -1 && item.volume !== undefined && item.volume != null) {
+              trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
+              setTradingValue([...trading_value]);
+            }
+          })
+        }
+      })
+
+      // axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false')
+      // .then(res => {
+      //   if (res && res.data) {
+      //     res.data.map((item)=>{
+      //       const find_index_1 = trading_list.indexOf(item.symbol.toUpperCase());
+      //       if (find_index_1 > -1 && item.total_volume !== undefined && item.total_volume != null && isEmpty(trading_value[find_index_1])) {
+      //         trading_value[find_index_1] = parseFloat(item.total_volume/1000000).toFixed(2);
+      //         setTradingValue([...trading_value]);
+      //       }
+      //     });
+      //   }
+      // })
+    }, 1000 * 30);
+    return () => clearInterval(checkViewerCountInterval);
+  },[]);
+
+  console.log("trading_value = ", trading_value)
 
   return (
     <Box>
@@ -90,17 +140,17 @@ const Footer = ({ responsive }) => {
             </Column>
             <Column>
               <Heading className='mb-4'>24h Total Trading Volume</Heading>
-              <FooterLink href='#'>TUPE: 1.00</FooterLink>
-              <FooterLink href='#'>AUD: 414.70</FooterLink>
-              <FooterLink href='#'>NZD: 4302.11</FooterLink>
-              <FooterLink href='#'>LKR: 320.1K</FooterLink>
-              <FooterLink href='#'>INR: 1.00</FooterLink>
-              <FooterLink href='#'>BTC: 237.72</FooterLink>
-              <FooterLink href='#'>ETH: 3260.00</FooterLink>
-              <FooterLink href='#'>BNB: 3.41K</FooterLink>
-              <FooterLink href='#'>TAUD: 12.90</FooterLink>
-              <FooterLink href='#'>USDT: 1050.00</FooterLink>
-              <FooterLink href='#'>SHIBU: 1.46</FooterLink>
+              <FooterLink href='#'>TUPE: {trading_value[0]}</FooterLink>
+              <FooterLink href='#'>AUD: {trading_value[1]}</FooterLink>
+              <FooterLink href='#'>NZD: {trading_value[2]}</FooterLink>
+              <FooterLink href='#'>LKR: {trading_value[3]}</FooterLink>
+              <FooterLink href='#'>INR: {trading_value[4]}</FooterLink>
+              <FooterLink href='#'>BTC: {trading_value[5]}</FooterLink>
+              <FooterLink href='#'>ETH: {trading_value[6]}</FooterLink>
+              <FooterLink href='#'>BNB: {trading_value[7]}</FooterLink>
+              <FooterLink href='#'>TAUD: {trading_value[8]}</FooterLink>
+              <FooterLink href='#'>USDT: {trading_value[9]}</FooterLink>
+              <FooterLink href='#'>SHIBU: {trading_value[10]}</FooterLink>
             </Column>
             <Column>
               <Heading className='mb-4'>Communities</Heading>
@@ -260,16 +310,16 @@ const Footer = ({ responsive }) => {
                 <i className='material-icons expand-icon'>expand_more</i>
               </div>
               <div className='accordion-content'>
-                <FooterLink href='#'>TUPE: 1.00</FooterLink>
-                <FooterLink href='#'>AUD: 414.70</FooterLink>
-                <FooterLink href='#'>NZD: 4302.11</FooterLink>
-                <FooterLink href='#'>LKR: 320.1K</FooterLink>
-                <FooterLink href='#'>INR: 1.00</FooterLink>
-                <FooterLink href='#'>ETH: 3260.00</FooterLink>
-                <FooterLink href='#'>BNB: 3.41K</FooterLink>
-                <FooterLink href='#'>TAUD: 12.90</FooterLink>
-                <FooterLink href='#'>USDT: 1050.00</FooterLink>
-                <FooterLink href='#'>SHIBU: 1.46</FooterLink>
+                <FooterLink href='#'>TUPE: {trading_value[0]}</FooterLink>
+                <FooterLink href='#'>AUD: {trading_value[1]}</FooterLink>
+                <FooterLink href='#'>NZD: {trading_value[2]}</FooterLink>
+                <FooterLink href='#'>LKR: {trading_value[3]}</FooterLink>
+                <FooterLink href='#'>INR: {trading_value[4]}</FooterLink>
+                <FooterLink href='#'>ETH: {trading_value[5]}</FooterLink>
+                <FooterLink href='#'>BNB: {trading_value[6]}</FooterLink>
+                <FooterLink href='#'>TAUD: {trading_value[7]}</FooterLink>
+                <FooterLink href='#'>USDT: {trading_value[8]}</FooterLink>
+                <FooterLink href='#'>SHIBU: {trading_value[9]}</FooterLink>
               </div>
             </div>
 
