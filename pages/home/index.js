@@ -8,7 +8,7 @@ import MainLayout from '../../layouts/MainLayout';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import CooperativePartners from '../../components/Widgets/CooperativePartners/CoopPartners';
-// import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
+import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -101,7 +101,7 @@ export default function HomeScreen() {
                 </p> */}
               </div>
               <div data-v-4654f51e className='banner-index-poster-box'>
-                {/* <EventCarousel /> */}
+                <EventCarousel />
                 <div data-v-4654f51e className='banner-index-quotations'>
                   <div data-v-4654f51e className='fixed_term'>
                     <div data-v-a2f3dc54 data-v-4654f51e className='rate-wrap'>

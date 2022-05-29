@@ -10,8 +10,8 @@ import 'swiper/css/pagination';
 /* eslint-enable import/no-unresolved */
 
 const EventCarousel = () => (
-  <div data-v-4654f51e className='banner-index-poster'>
-    <Swiper
+  <div data-v-4654f51e className='banner-index-poster' style={{background:"gray", height:250}}>
+    {/* <Swiper
       modules={[Autoplay, Pagination]}
       slidesPerView={1}
       loop
@@ -109,7 +109,7 @@ const EventCarousel = () => (
           />
         </Link>
       </SwiperSlide>
-    </Swiper>
+    </Swiper> */}
   </div>
 );
 
