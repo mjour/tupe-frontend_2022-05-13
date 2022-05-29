@@ -49,34 +49,21 @@ const Footer = ({ responsive }) => {
       }
     })
 
-    const checkViewerCountInterval = setInterval(async () => {
+    // const checkViewerCountInterval = setInterval(async () => {
       
-      axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
-        if (res && res.data && res.data.data)   {
-          res.data.data.map(item=>{
-            const find_index = trading_list.indexOf(item.mapperName);
-            if (find_index > -1 && item.volume !== undefined && item.volume != null) {
-              trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
-              setTradingValue([...trading_value]);
-            }
-          })
-        }
-      })
-
-      // axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false')
-      // .then(res => {
-      //   if (res && res.data) {
-      //     res.data.map((item)=>{
-      //       const find_index_1 = trading_list.indexOf(item.symbol.toUpperCase());
-      //       if (find_index_1 > -1 && item.total_volume !== undefined && item.total_volume != null && isEmpty(trading_value[find_index_1])) {
-      //         trading_value[find_index_1] = parseFloat(item.total_volume/1000000).toFixed(2);
-      //         setTradingValue([...trading_value]);
-      //       }
-      //     });
-      //   }
-      // })
-    }, 1000 * 30);
-    return () => clearInterval(checkViewerCountInterval);
+    //   axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
+    //     if (res && res.data && res.data.data)   {
+    //       res.data.data.map(item=>{
+    //         const find_index = trading_list.indexOf(item.mapperName);
+    //         if (find_index > -1 && item.volume !== undefined && item.volume != null) {
+    //           trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
+    //           setTradingValue([...trading_value]);
+    //         }
+    //       })
+    //     }
+    //   })
+    // }, 1000 * 30);
+    // return () => clearInterval(checkViewerCountInterval);
   },[]);
 
   console.log("trading_value = ", trading_value)
