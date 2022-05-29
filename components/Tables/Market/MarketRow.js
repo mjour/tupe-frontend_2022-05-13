@@ -20,8 +20,12 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
     return Number(integer[0]).toLocaleString() + '.' + integer[1];
   }
 
+  function gotoPage () {
+    window.location = '/exchange';
+  }
+
   return (
-    <tr>
+    <tr onClick={gotoPage}>
       <td className='markFavorite' style={{width:"5%"}}>
         <div className='markFavorite-icon'>
           <i className='material-icons'>star_border</i>

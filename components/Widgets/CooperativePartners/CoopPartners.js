@@ -34,11 +34,11 @@ const coopPartners = memo(() => (
           <img src='/coopPartners/staking-rewards.png' alt='' />
         </a>
       </div>
-      <div className='partnerBox'>
+      {/* <div className='partnerBox'>
         <a href='https://ledgercap.co/' className='partner' target='_blank' rel='noreferrer'>
           <img src='/coopPartners/ledger-capital.png' alt='' />
         </a>
-      </div>
+      </div> */}
       <div className='partnerBox'>
         <a href='https://www.oklink.com/' className='partner' target='_blank' rel='noreferrer'>
           <img src='/coopPartners/OKLink.png' alt='' />
