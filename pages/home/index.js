@@ -15,6 +15,7 @@ export default function HomeScreen() {
   const [token, setToken] = useState('');
   const marketChartProps = {
     width: '100%',
+    marginLeft: 100,
     height: 350,
     symbolsGroups: [
       {
@@ -2087,7 +2088,9 @@ export default function HomeScreen() {
               <li className='active-type'>Spot Trading</li>
             </ol>
             {/* <SpotTradingDummy /> */}
-            <MarketData widgetProps={marketChartProps} />
+            <div style={{width:"60%", margin:'auto'}}>
+              <MarketData widgetProps={marketChartProps} />
+            </div>
           </div>
           <div className='section3'>
             <div className='common-width s3-wrap' style={commonWidthStyle}>
