@@ -66,7 +66,6 @@ const Footer = ({ responsive }) => {
     // return () => clearInterval(checkViewerCountInterval);
   },[]);
 
-  console.log("trading_value = ", trading_value)
 
   return (
     <Box>
