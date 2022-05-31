@@ -44,7 +44,8 @@ const selectedArrowUp = {
   color: 'black',
 };
 
-const renderTooltip = (props) => <Tooltip {...props} className={'tooltip-area'}>
+// eslint-disable-next-line react/jsx-props-no-spreading
+const renderTooltip = (props) => <Tooltip {...props} className="tooltip-area">
   <table className='hover-table'>
     <thead>
       <tr>
@@ -55,16 +56,14 @@ const renderTooltip = (props) => <Tooltip {...props} className={'tooltip-area'}>
       </tr>
     </thead>
     <tbody>
-      {props !== undefined && props.map(item=>{
-        return (
+      {props !== undefined && props.map(item=>(
           <tr>
             <td>{item.display}</td>
             <td>{item.c}</td>
             <td className={'trading-change ' + (item.P > 0 ? 'green': (item.P == '0.00' ? 'gray':'red'))} >{item.P > 0 ? '+' : ''}{item.P}</td>
             <td>{item.p}</td>
           </tr>
-        )
-      })}
+        ))}
     </tbody>
   </table>
 </Tooltip>;
@@ -181,22 +180,20 @@ export default function HomeScreen() {
         const json = JSON.parse(event.data);
         try {
           if (json.data !== undefined) {
-            let json_data = json.data;
-            let shib = json_data.find(x=>x.s.includes("SHIB"))
-            console.log("shibu = ", shib)
+            const json_data = json.data;
             trading_list.map(item=>{
               const find_data = json_data.find(x=>x.s == item);
               if (find_data !== undefined) {
-                let find_index = trading.findIndex(x=>find_data.s.includes(x.name));
+                const find_index = trading.findIndex(x=>find_data.s.includes(x.name));
                 if (find_index > -1) {
-                  let now_time = new Date().getTime();
+                  const now_time = new Date().getTime();
                   if ((now_time % 4 == 0 && trading[find_index].s !== undefined) || trading[find_index].s === undefined) {
                     Object.keys(find_data).map(key=>{
                       if (!loaded) setLoaded(true);
                       trading[find_index][key] = find_data[key];
                     })
                   }
-                  let pair = trading[find_index].pair;
+                  const pair = trading[find_index].pair;
                   if (pair !== undefined) {
                     pair.map((pair_item, pair_index)=>{
                       const pair_find_data = json_data.find(x=>x.s === pair_item.name);
@@ -242,6 +239,10 @@ export default function HomeScreen() {
     width: 'inherit',
   };
   const sortedCoins = orderBy(trading, sortkey, sortorder);
+
+  function gotoPage () {
+    window.location = '/exchange';
+  }
 
   return (
     <MainLayout>
@@ -2278,15 +2279,14 @@ export default function HomeScreen() {
                   </tr>
                 </thead>
                 <tbody>
-                  {loaded && sortedCoins.map(item=>{
-                    return (
+                  {loaded && sortedCoins.map(item=>(
                       <OverlayTrigger 
                         placement="bottom"
                         overlay={renderTooltip(item.pair)}>
-                      <tr key={item.name}>
+                      <tr key={item.name} onClick={gotoPage}>
                         <td className='trading-name'>
                           <div style={{display: 'flex'}}>
-                            <img src={item.image}></img>
+                            <img src={item.image} alt=''/>
                             <strong>{item.name}</strong>
                           </div>
                         </td>
@@ -2299,8 +2299,7 @@ export default function HomeScreen() {
                         <td className='trading-change'>{item.a}</td>
                       </tr>
                       </OverlayTrigger>
-                    )
-                  })}
+                    ))}
                 </tbody>
                 
               </table>

@@ -140,7 +140,8 @@ const MarketScreen = () => {
                 all_coins[index].total_volume = item.volume/1000000;
               }
             }
-          })
+          });
+          window.sessionStorage.setItem('market_data', JSON.stringify(all_coins))
           setData(all_coins);
           setAllSymbol([...all_symbols])
           setLoaded(true);
@@ -315,7 +316,7 @@ const MarketScreen = () => {
 
   return (
     <>
-      {loaded && (
+      {/* {loaded && ( */}
         <SiteLayout>
           <TopCoins topcoin={topcoin} unit={unit}/>
           <TopBar
@@ -345,7 +346,7 @@ const MarketScreen = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedCoins.map((item, index) => (
+                {loaded && sortedCoins.map((item, index) => (
                   <>
                     {index >= (current_page - 1) * 20 && index < current_page *20 && (
                       <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
@@ -366,7 +367,7 @@ const MarketScreen = () => {
           </div>
 
         </SiteLayout>
-      )}
+       {/* )} */}
       <Footer />
     </>
   );

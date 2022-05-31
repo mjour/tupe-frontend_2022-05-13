@@ -16,7 +16,6 @@ module.exports = {
   rules: {
     semi: 'warn',
     'no-console': 'warn',
-    'prettier/prettier': 'warn',
     'no-else-return': 'warn',
     'no-nested-ternary': 'warn',
     'consistent-return': 'warn',
@@ -53,7 +52,7 @@ module.exports = {
     'newline-before-return': 'warn',
     'react/prop-types': 'off',
     'linebreak-style': 'off',
-    'prettier/prettier': 'false',
+    'prettier/prettier': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': 'off',
     'jsx-quotes': ['warn', 'prefer-single'],
