@@ -1,18 +1,125 @@
 import { useEffect, useState } from 'react';
-import { MarketData } from 'react-tradingview-embed';
+// import { MarketData } from 'react-tradingview-embed';
 import { useRouter } from 'next/router';
-
 import Head from 'next/head';
-
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import MainLayout from '../../layouts/MainLayout';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import CooperativePartners from '../../components/Widgets/CooperativePartners/CoopPartners';
 import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
+import {isNil, cloneDeep, orderBy} from "lodash";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+const arrow = {
+  position: 'relative',
+  right: '15px'
+};
+
+const arrowdown = {
+  position: 'absolute',
+  cursor: 'pointer',
+  bottom: '-8px',
+};
+
+const selectedArrowDown = {
+  position: 'absolute',
+  cursor: 'pointer',
+  bottom: '-8px',
+  color: 'black',
+};
+
+const arrowup = {
+  position: 'absolute',
+  cursor: 'pointer',
+  top: '-5px',
+};
+
+const selectedArrowUp = {
+  position: 'absolute',
+  cursor: 'pointer',
+  top: '-5px',
+  color: 'black',
+};
+
+const renderTooltip = (props) => <Tooltip {...props} className={'tooltip-area'}>
+  <table className='hover-table'>
+    <thead>
+      <tr>
+        <th>Pair</th>
+        <th>Price</th>
+        <th>Change</th>
+        <th>24H Volume</th>
+      </tr>
+    </thead>
+    <tbody>
+      {props !== undefined && props.map(item=>{
+        return (
+          <tr>
+            <td>{item.display}</td>
+            <td>{item.c}</td>
+            <td className={'trading-change ' + (item.P > 0 ? 'green': (item.P == '0.00' ? 'gray':'red'))} >{item.P > 0 ? '+' : ''}{item.P}</td>
+            <td>{item.p}</td>
+          </tr>
+        )
+      })}
+    </tbody>
+  </table>
+</Tooltip>;
 
 export default function HomeScreen() {
   const router = useRouter();
   const [token, setToken] = useState('');
+  const CRYTOCOMPARE_API_KEY = '22ecd4c3d9ba9629fe8555875cb826598533e729ef38e46af033f4f6fdec2802';
+  const [sortkey, setSortKey] = useState('');
+  const [sortorder, setSortOrder] = useState('');
+  const [loaded, setLoaded] = useState(false);
+  const trading_init = [
+    {
+      image: "https://upload-hotbit-io.oss-ap-southeast-1.aliyuncs.com/files/ETH_1_LOGO.png",
+      name: 'ETHUSD',
+      pair: [
+        {name: 'ETHUSDT', display: 'ETH/USDT'},
+        {name: 'ETHUSDC', display: 'ETH/USDC'},
+        {name: 'ETHBTC', display: 'ETH/BTC'},
+      ]
+    },
+    {
+      image: 'https://icons-for-free.com/iconfiles/png/512/btc+coin+crypto+icon-1320162856490699468.png',
+      name: 'BTCUSD',
+      pair: [
+        {name: 'BTCUSDT', display: 'BTC/USDT'},
+        {name: 'BTCUSDC', display: 'BTC/USDC'},
+      ]
+    },
+    {
+      image: 'https://upload-hotbit-io.oss-ap-southeast-1.aliyuncs.com/files/SHIB_LOGO.png',
+      name: 'SHIBUSDT',
+      pair: [
+        {name: 'SHIBUSDT', display: 'SHIBU/USDT'},
+        {name: 'SUSHIBNB', display: 'SHIBU/BNB'},
+      ]
+    },
+    {
+      image: 'https://assets.coingecko.com/coins/images/12171/large/polkadot.png?1639712644',
+      name: 'DOTUSDT',
+      pair: [
+        {name: 'DOTUSDT', display: 'DOT/USDT'},
+        {name: 'DOTBTC', display: 'DOT/BTC'},
+      ]
+    },
+    {
+      image: 'https://assets.coingecko.com/coins/images/12493/large/GALA-COINGECKO.png?1600233435',
+      name: 'GALAUSDT',
+      pair: [
+        {name: 'GALABTC', display: 'GALA/BTC'},
+        {name: 'GALABNB', display: 'GALA/BNB'},
+      ]
+    }
+  ]
+  const [trading, setTrading] = useState(trading_init);
   const marketChartProps = {
     width: '100%',
     marginLeft: 100,
@@ -46,16 +153,83 @@ export default function HomeScreen() {
     locale: 'en',
   };
 
+  useEffect(()=>{
+
+  }, []);
+
   useEffect(() => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
+
+    const trading_list = ['ETHUSDT', 'BTCUSDT', 'SHIBUSDT', 'DOTUSDT', 'GALAUSDT'];
 
     // if (!localToken) {
     //   router.push('/');
     // }
 
+
+    const url = 'wss://stream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
+    const isBrowser = typeof window !== "undefined";
+    const ws = isBrowser ? new WebSocket(url) : null;
+    if (!isNil(ws)) {
+      ws.onopen = (event) => {
+      };
+      ws.onclose = function (eventclose) {
+      };
+
+      ws.onmessage = function (event) {
+        const json = JSON.parse(event.data);
+        try {
+          if (json.data !== undefined) {
+            let json_data = json.data;
+            let shib = json_data.find(x=>x.s.includes("SHIB"))
+            console.log("shibu = ", shib)
+            trading_list.map(item=>{
+              const find_data = json_data.find(x=>x.s == item);
+              if (find_data !== undefined) {
+                let find_index = trading.findIndex(x=>find_data.s.includes(x.name));
+                if (find_index > -1) {
+                  let now_time = new Date().getTime();
+                  if ((now_time % 4 == 0 && trading[find_index].s !== undefined) || trading[find_index].s === undefined) {
+                    Object.keys(find_data).map(key=>{
+                      if (!loaded) setLoaded(true);
+                      trading[find_index][key] = find_data[key];
+                    })
+                  }
+                  let pair = trading[find_index].pair;
+                  if (pair !== undefined) {
+                    pair.map((pair_item, pair_index)=>{
+                      const pair_find_data = json_data.find(x=>x.s === pair_item.name);
+                      if (pair_find_data !== undefined) {
+                        Object.keys(pair_find_data).map(key=>{
+                          pair[pair_index][key] = pair_find_data[key];
+                        });
+                      }
+                    })
+                  }
+                }
+              }
+              setTrading([...trading]);
+            })
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    }
+
     document.body.setAttribute('style', 'min-width: auto;');
   }, []);
+
+  const sort = (key, order) =>{
+    if (key === sortkey && order === sortorder) {
+      setSortKey('');
+      setSortOrder('');
+    } else {
+      setSortKey(key)
+      setSortOrder(order);
+    }
+  };
 
   const commonWidthStyle = {
     minWidth: 'auto',
@@ -67,6 +241,7 @@ export default function HomeScreen() {
     minWidth: 'auto',
     width: 'inherit',
   };
+  const sortedCoins = orderBy(trading, sortkey, sortorder);
 
   return (
     <MainLayout>
@@ -2088,8 +2263,48 @@ export default function HomeScreen() {
               <li className='active-type'>Spot Trading</li>
             </ol>
             {/* <SpotTradingDummy /> */}
-            <div style={{width:"60%", margin:'auto'}}>
-              <MarketData widgetProps={marketChartProps} />
+            <div style={{width:"90%", margin:'auto'}}>
+              <table className='trading-table'>
+                <thead>
+                  <tr>
+                    <th className="trading-name"><span style={{marginRight: 15}}>Name</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'name' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('name', 'asc')}/><ArrowDropDownIcon style={sortkey === 'name' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('name', 'desc')}/></span></th>
+                    <th className="trading-change"><span style={{marginRight: 15}}>Value</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'c' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('c', 'asc')}/><ArrowDropDownIcon style={sortkey === 'c' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('c', 'desc')}/></span></th>
+                    {/* <th className="trading-change">Change</th> */}
+                    <th className="trading-percent"><span style={{marginRight: 15}}>Ch%</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'P' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('P', 'asc')}/><ArrowDropDownIcon style={sortkey === 'P' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('P', 'desc')}/></span></th>
+                    <th className="trading-change"><span style={{marginRight: 15}}>Open</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'o' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('o', 'asc')}/><ArrowDropDownIcon style={sortkey === 'o' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('o', 'desc')}/></span></th>
+                    <th className="trading-change"><span style={{marginRight: 15}}>High</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'h' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('h', 'asc')}/><ArrowDropDownIcon style={sortkey === 'h' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('h', 'desc')}/></span></th>
+                    <th className="trading-change"><span style={{marginRight: 15}}>Low</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'l' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('l', 'asc')}/><ArrowDropDownIcon style={sortkey === 'l' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('l', 'desc')}/></span></th>
+                    <th className="trading-change"><span style={{marginRight: 15}}>Prev</span><span style={arrow}><ArrowDropUpIcon style={sortkey === 'a' && sortorder === 'asc' ? selectedArrowUp : arrowup} onClick={()=>sort('a', 'asc')}/><ArrowDropDownIcon style={sortkey === 'a' && sortorder === 'desc' ? selectedArrowDown : arrowdown} onClick={()=>sort('a', 'desc')}/></span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loaded && sortedCoins.map(item=>{
+                    return (
+                      <OverlayTrigger 
+                        placement="bottom"
+                        overlay={renderTooltip(item.pair)}>
+                      <tr key={item.name}>
+                        <td className='trading-name'>
+                          <div style={{display: 'flex'}}>
+                            <img src={item.image}></img>
+                            <strong>{item.name}</strong>
+                          </div>
+                        </td>
+                        <td className='trading-change'>{item.c}</td>
+                        {/* <td className={'trading-change ' + (item.p > 0 ? 'green': (item.p == '0.00' ? 'gray':'red'))} >{item.p > 0 ? '+' : ''}{item.p}</td> */}
+                        <td className={'trading-change ' + (item.P > 0 ? 'green': (item.P == '0.00' ? 'gray':'red'))} >{item.P > 0 ? '+' : ''}{item.P}</td>
+                        <td className='trading-change'>{item.o}</td>
+                        <td className='trading-change'>{item.h}</td>
+                        <td className='trading-change'>{item.l}</td>
+                        <td className='trading-change'>{item.a}</td>
+                      </tr>
+                      </OverlayTrigger>
+                    )
+                  })}
+                </tbody>
+                
+              </table>
+              {/* <MarketData widgetProps={marketChartProps} /> */}
             </div>
           </div>
           <div className='section3'>

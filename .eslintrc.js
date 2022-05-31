@@ -53,7 +53,7 @@ module.exports = {
     'newline-before-return': 'warn',
     'react/prop-types': 'off',
     'linebreak-style': 'off',
-    'prettier/prettier': 'warn',
+    'prettier/prettier': 'false',
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': 'off',
     'jsx-quotes': ['warn', 'prefer-single'],

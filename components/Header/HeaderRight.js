@@ -74,9 +74,9 @@ const HeaderRight = memo(({ tabs }) => {
             <Link href='/members'>
               <div
                 className='profile-picture cover'
-                style={{
-                  backgroundImage: `url('me.png')`,
-                }}
+                // style={{
+                //   backgroundImage: `url('me.png')`,
+                // }}
               />
             </Link>
           </li>

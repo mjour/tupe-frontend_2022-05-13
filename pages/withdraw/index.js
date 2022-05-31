@@ -13,11 +13,11 @@ const WithdrawScreen = () => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
 
-    if (localToken && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() === 'production') {
-      router.push('/home');
-    } else if (!localToken) {
-      router.push('/');
-    }
+    // if (localToken && process.env.NEXT_PUBLIC_APP_ENV.toLowerCase() === 'production') {
+    //   router.push('/home');
+    // } else if (!localToken) {
+    //   router.push('/');
+    // }
   }, []);
 
   return (

@@ -69,6 +69,8 @@ const MarketScreen = () => {
   const [allSymbol, setAllSymbol] = useState([]);
   const CRYTOCOMPARE_API_KEY = '22ecd4c3d9ba9629fe8555875cb826598533e729ef38e46af033f4f6fdec2802';
   // const trade_api = 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=TUPE,AUD,NZD,LKR,INR,BTC,ETH,BNB,TAUD,USDT,SHIB';
+  // wss://stream.binance.com/stream
+  // https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list
 
 
   const apiFunction = async () => {
@@ -166,12 +168,16 @@ const MarketScreen = () => {
     });
     const controller = new AbortController();
     const apiCall = {action: 'SubAdd',subs};
+    // const apiCall = { method: "SUBSCRIBE" }
     const url = 'wss://streamer.cryptocompare.com/v2?api_key=' + CRYTOCOMPARE_API_KEY;
+    // const url = 'wss://stream.binance.com/stream';
     const isBrowser = typeof window !== "undefined";
     const ws = isBrowser ? new WebSocket(url) : null;
     if (!isNil(ws)) {
       ws.onopen = (event) => {
+        console.log("onopen")
         ws.send(JSON.stringify(apiCall));
+        // ws.send();
       };
       ws.onmessage = function (event) {
         const json = JSON.parse(event.data);
@@ -192,7 +198,6 @@ const MarketScreen = () => {
             if (findIndex > -1) {
               new_data[findIndex] = {...insert_item};
             }
-            // if (new_data.length > 0) 
             setData([...new_data]);
             const btc = data.find(x=>x.symbol === "btc");
             const eth = data.find(x=>x.symbol === "eth");
@@ -210,6 +215,64 @@ const MarketScreen = () => {
       };
     }
     return () => controller.abort();
+    // const url = 'wss://stream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
+    // // const url = 'wss://stream.binance.com/stream';
+    // const isBrowser = typeof window !== "undefined";
+    // const ws = isBrowser ? new WebSocket(url) : null;
+    // if (!isNil(ws)) {
+    //   ws.onopen = (event) => {
+    //   };
+    //   ws.onclose = function (eventclose) {
+    //       // setTimeout(function () {
+    //       //     self.connectWs();
+    //       // }, 5000)
+    //   };
+
+    //   ws.onmessage = function (event) {
+    //     const json = JSON.parse(event.data);
+    //     try {
+    //       if (json.data !== undefined) {
+    //         // console.log("json = ", json.data)
+    //         let json_data = json.data;
+    //         data.map((item, index)=>{
+    //           let symbol = item.symbol.toUpperCase() + 'USDT';
+    //           let find_data = json_data.find(x=>x.s == symbol)
+    //           if (find_data !== undefined) {
+    //             console.log("finddata = ", find_data)
+    //             let insert_item = item;
+    //             if (isNil(insert_item.price_change_percentage_24h)) insert_item.price_change_percentage_24h = 0;
+    //             if (insert_item !== undefined && find_data.c !== undefined) {
+    //               insert_item.price_change_percentage_24h = find_data.P
+    //               insert_item.current_price = find_data.c;
+    //               insert_item.high_24h = find_data.h;
+    //               insert_item.low_24h = find_data.l;
+    //               console.log("insert_item = ", insert_item)
+    //             }
+    //             // if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
+    //             if (trade_price[insert_item.symbol] !== undefined && find_data.c !== undefined) trade_price[insert_item.symbol] = find_data.c;
+    //             setTradePrice(trade_price);
+    //             data[index] = {...insert_item};
+    //             setData([...data]);
+    //             const btc = data.find(x=>x.symbol === "btc");
+    //             const eth = data.find(x=>x.symbol === "eth");
+    //             const doge = data.find(x=>x.symbol === "doge");
+    //             const shib = data.find(x=>x.symbol === "shib");
+    //             if (btc !== undefined) topcoin.btc = [btc.current_price, btc.price_change_percentage_24h];
+    //             if (eth !== undefined) topcoin.eth = [eth.current_price, eth.price_change_percentage_24h];
+    //             if (doge !== undefined) topcoin.doge = [doge.current_price, doge.price_change_percentage_24h];
+    //             if (shib !== undefined) topcoin.shib = [shib.current_price, shib.price_change_percentage_24h];
+    //             setTopcoin({...topcoin});
+    //           }
+    //         })
+    //         // const btc_usd = json.data.find(x=>x.s == "");
+    //         // console.log("btcusd = ", btc_usd)
+
+    //       }
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   };
+    // }
   }, [allSymbol]);
 
   const handleSearchValue = (e) => {
@@ -223,7 +286,7 @@ const MarketScreen = () => {
   };
 
   const filteredCoins = data.filter(coin =>
-    (coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase()) || (coin.symbol !== undefined && coin.symbol.toLowerCase().includes(keyword.toLowerCase())))
+    (coin.name !== undefined && coin.name.toLowerCase().includes(keyword.toLowerCase()) || (coin.symbol !== undefined && coin.symbol.toLowerCase().includes(keyword.toLowerCase()))) && coin.name != "Tenset"
   );
 
 

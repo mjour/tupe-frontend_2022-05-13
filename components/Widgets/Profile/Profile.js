@@ -22,9 +22,9 @@ const Profile = memo(() => (
           <label htmlFor='file'>
             <div
               className='icon cover pointer'
-              style={{
-                backgroundImage: `url('me.png')`,
-              }}
+              // style={{
+              //   backgroundImage: `url('me.png')`,
+              // }}
             />
             <div className='edit pointer'>
               <i className='material-icons'>edit</i>
