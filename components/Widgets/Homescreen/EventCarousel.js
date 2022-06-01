@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 
 const EventCarousel = () => (
   <div data-v-4654f51e className='banner-index-poster' style={{background:"gray", height:250}}>
-    {/* <Swiper
+    <Swiper
       modules={[Autoplay, Pagination]}
       slidesPerView={1}
       loop
@@ -109,7 +109,7 @@ const EventCarousel = () => (
           />
         </Link>
       </SwiperSlide>
-    </Swiper> */}
+    </Swiper>
   </div>
 );
 
