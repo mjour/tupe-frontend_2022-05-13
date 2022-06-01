@@ -7,7 +7,6 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Box, Container, Row, Column, FooterLink, Heading } from './FooterStyles';
 import axios from 'axios';
-import { isEmpty } from 'lodash';
 
 const trading_list = ['TUPE', 'AUD', 'NZD', 'LKR', 'INR', 'BTC', 'ETH', 'BNB', 'TAUD', 'USDT', 'SHIB'];
 const Footer = ({ responsive }) => {
@@ -66,6 +65,15 @@ const Footer = ({ responsive }) => {
     // return () => clearInterval(checkViewerCountInterval);
   },[]);
 
+  function gotoPage (type) {
+    window.sessionStorage.setItem('market_type', type);
+    window.location = '/market';
+    // const path = window.location.href;
+    // if (!path.includes('/market')) {
+    // } else {
+    //   $('html, body').animate({ scrollTop: 0 }, 'fast');
+    // }
+  }
 
   return (
     <Box>
@@ -74,17 +82,17 @@ const Footer = ({ responsive }) => {
           <Row>
             <Column>
               <Heading className='mb-4'>Trading Pairs</Heading>
-              <FooterLink href='#'>TUPE</FooterLink>
-              <FooterLink href='#'>AUD</FooterLink>
-              <FooterLink href='#'>NZD</FooterLink>
-              <FooterLink href='#'>LKR</FooterLink>
-              <FooterLink href='#'>INR</FooterLink>
-              <FooterLink href='#'>BTC</FooterLink>
-              <FooterLink href='#'>ETH</FooterLink>
-              <FooterLink href='#'>BNB</FooterLink>
-              <FooterLink href='#'>TAUD</FooterLink>
-              <FooterLink href='#'>USDT</FooterLink>
-              <FooterLink href='#'>SHIBU</FooterLink>
+              <FooterLink onClick={()=>gotoPage('TUPE')}>TUPE</FooterLink>
+              <FooterLink onClick={()=>gotoPage('AUD')}>AUD</FooterLink>
+              <FooterLink onClick={()=>gotoPage('NZD')}>NZD</FooterLink>
+              <FooterLink onClick={()=>gotoPage('LKR')}>LKR</FooterLink>
+              <FooterLink onClick={()=>gotoPage('INR')}>INR</FooterLink>
+              <FooterLink onClick={()=>gotoPage('BTC')}>BTC</FooterLink>
+              <FooterLink onClick={()=>gotoPage('ETH')}>ETH</FooterLink>
+              <FooterLink onClick={()=>gotoPage('BNB')}>BNB</FooterLink>
+              <FooterLink onClick={()=>gotoPage('TAUD')}>TAUD</FooterLink>
+              <FooterLink onClick={()=>gotoPage('USDT')}>USDT</FooterLink>
+              <FooterLink onClick={()=>gotoPage('SHIBU')}>SHIBU</FooterLink>
             </Column>
             <Column>
               <Heading className='mb-4'>About Us</Heading>
@@ -126,15 +134,15 @@ const Footer = ({ responsive }) => {
             </Column>
             <Column>
               <Heading className='mb-4'>24h Total Trading Volume</Heading>
-              <FooterLink href='#'>TUPE: {trading_value[0]}</FooterLink>
-              <FooterLink href='#'>AUD: {trading_value[1]}</FooterLink>
-              <FooterLink href='#'>NZD: {trading_value[2]}</FooterLink>
-              <FooterLink href='#'>LKR: {trading_value[3]}</FooterLink>
-              <FooterLink href='#'>INR: {trading_value[4]}</FooterLink>
+              <FooterLink href='#'>TUPE: {trading_value[5]}</FooterLink>
+              <FooterLink href='#'>AUD: {parseFloat(trading_value[5]/0.71).toFixed(2)}</FooterLink>
+              <FooterLink href='#'>NZD: {parseFloat(trading_value[5]/0.65).toFixed(2)}</FooterLink>
+              <FooterLink href='#'>LKR: {parseFloat(trading_value[5]/0.0028).toFixed(2)}</FooterLink>
+              <FooterLink href='#'>INR: {parseFloat(trading_value[5]/0.013).toFixed(2)}</FooterLink>
               <FooterLink href='#'>BTC: {trading_value[5]}</FooterLink>
               <FooterLink href='#'>ETH: {trading_value[6]}</FooterLink>
               <FooterLink href='#'>BNB: {trading_value[7]}</FooterLink>
-              <FooterLink href='#'>TAUD: {trading_value[8]}</FooterLink>
+              <FooterLink href='#'>TAUD: {trading_value[5]}</FooterLink>
               <FooterLink href='#'>USDT: {trading_value[9]}</FooterLink>
               <FooterLink href='#'>SHIBU: {trading_value[10]}</FooterLink>
             </Column>

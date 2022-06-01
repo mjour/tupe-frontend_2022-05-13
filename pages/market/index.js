@@ -155,6 +155,9 @@ const MarketScreen = () => {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
     apiFunction();
+    const trade_cache_type = window.sessionStorage.getItem("market_type");
+    if (!isNil(trade_cache_type)) handleTopButtonEvent(trade_cache_type);
+    window.sessionStorage.removeItem('market_type');
   }, []);
 
   useEffect(()=>{
