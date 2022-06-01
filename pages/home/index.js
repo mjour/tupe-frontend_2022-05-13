@@ -181,6 +181,7 @@ export default function HomeScreen() {
         try {
           if (json.data !== undefined) {
             const json_data = json.data;
+            console.log(json_data)
             trading_list.map(item=>{
               const find_data = json_data.find(x=>x.s == item);
               if (find_data !== undefined) {
@@ -269,8 +270,7 @@ export default function HomeScreen() {
                   {/* The Worlds Leading Cryptocurrency Trading Platform */}
                   Thanks for your registration with Tupe.
                   <br />
-                  Tupe exchange platform is coming soon for crypto currency investors
-                  <br /> all around the world, stay connected with Tupe for more update’s.
+                  Tupe exchange platform is coming soon for crypto currency investors all around the world, stay connected with Tupe for more update’s.
                 </p>
                 {/* <p data-v-4654f51e style={{ textAlign: 'center' }} data-nsfw-filter-status='swf'>
                   Highly-Efficient &nbsp;·&nbsp; Flexible &nbsp;·&nbsp; Diverse &nbsp;·&nbsp; Stable
