@@ -45,11 +45,11 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
         </strong>
       </td>
       <td className='right' style={{width:"14%"}}>
-        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price)}%</strong>
+        <strong className={price > 0 ? 'green': (price == '0.00' ? 'gray':'red')}>{price > 0 ? "+" : ""} {round(price/multiple)}%</strong>
       </td>
       <td className='right responsive-hide2' style={{width:"14%"}}>{round(item.high_24h/multiple)}</td>
       <td className='right responsive-hide2' style={{width:"14%"}}>{round(item.low_24h/multiple)}</td>
-      <td className='right' style={{width:"14%"}}>{(round(item.total_volume))}M</td>
+      <td className='right' style={{width:"14%"}}>{(round(item.total_volume/multiple))}M</td>
     </tr>
   );
 });
