@@ -78,7 +78,7 @@ const MarketScreen = () => {
     var all_symbols = [];
 
     await axios
-    .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=1&sparkline=false')
+    .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false')
     .then(res => {
       if (res && res.data) {
         const new_data = [];
@@ -102,14 +102,14 @@ const MarketScreen = () => {
         res.data.map(item=>{
           if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
           all_symbols.push(item.symbol.toUpperCase());
-        })
+        });
       }
     })
     .catch(error => console.log(error));
 
     setTimeout(()=>{
       axios
-      .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=200&page=2&sparkline=false')
+      .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=215&page=2&sparkline=false')
       .then(res => {
         if (res && res.data) {
           const new_data_1 = [];
@@ -118,21 +118,46 @@ const MarketScreen = () => {
             if (isNil(item.price_change_percentage_24h)) item.price_change_percentage_24h = 0;
             if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
             new_data_1.push(item);
-          })
+          });
           setTradePrice(tradeTypes);
           all_coins = all_coins.concat(new_data_1);
           res.data.map(item=>{
             if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
             all_symbols.push(item.symbol.toUpperCase());
-          })
+          });
           
         }
       })
       .catch();
     }, 100);
+
+    // setTimeout(()=>{
+    //   axios
+    //   .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=3&sparkline=false')
+    //   .then(res => {
+    //     if (res && res.data) {
+    //       const new_data_2 = [];
+    //       res.data.map((item, index)=>{
+    //         item.sort_number = index + data.length;
+    //         if (isNil(item.price_change_percentage_24h)) item.price_change_percentage_24h = 0;
+    //         if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
+    //         new_data_2.push(item);
+    //       });
+    //       setTradePrice(tradeTypes);
+    //       all_coins = all_coins.concat(new_data_2);
+    //       res.data.map(item=>{
+    //         if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
+    //         all_symbols.push(item.symbol.toUpperCase());
+    //       });
+    //     }
+    //   })
+    //   .catch();
+    // }, 100);
+
     setTimeout(()=>{
       axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
-        if (res && res.data && res.data.data)   {
+        if (res && res.data && res.data.data) {
+          console.log(res.data.data.length)
           res.data.data.map(item=>{
             const index = all_coins.findIndex(x=>x.symbol === item.name.toLowerCase());
             if (index > -1) {
@@ -146,9 +171,9 @@ const MarketScreen = () => {
           setAllSymbol([...all_symbols])
           setLoaded(true);
         }
-      })
-    }, 100)
-  }
+      });
+    }, 100);
+  };
 
 
   useEffect(()=> {
@@ -179,7 +204,6 @@ const MarketScreen = () => {
     const ws = isBrowser ? new WebSocket(url) : null;
     if (!isNil(ws)) {
       ws.onopen = (event) => {
-        console.log("onopen")
         ws.send(JSON.stringify(apiCall));
         // ws.send();
       };

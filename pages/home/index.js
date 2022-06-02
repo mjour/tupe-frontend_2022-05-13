@@ -181,7 +181,7 @@ export default function HomeScreen() {
         try {
           if (json.data !== undefined) {
             const json_data = json.data;
-            console.log(json_data)
+            window.sessionStorage.setItem("market_websocket", JSON.stringify(json_data));
             trading_list.map(item=>{
               const find_data = json_data.find(x=>x.s == item);
               if (find_data !== undefined) {
@@ -192,7 +192,7 @@ export default function HomeScreen() {
                     Object.keys(find_data).map(key=>{
                       if (!loaded) setLoaded(true);
                       trading[find_index][key] = find_data[key];
-                    })
+                    });
                   }
                   const pair = trading[find_index].pair;
                   if (pair !== undefined) {
@@ -203,12 +203,12 @@ export default function HomeScreen() {
                           pair[pair_index][key] = pair_find_data[key];
                         });
                       }
-                    })
+                    });
                   }
                 }
               }
               setTrading([...trading]);
-            })
+            });
           }
         } catch (err) {
           console.log(err);
