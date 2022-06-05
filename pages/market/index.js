@@ -207,6 +207,7 @@ const MarketScreen = ({coins}) => {
     if (session_data === undefined) return '';
     const market_data = JSON.parse(session_data);
     const name = coin_item.symbol + 'USD';
+    console.log("name = ", name)
     const find_data = market_data.find(x=>x.s === name.toUpperCase());
     let result = '';
     if (find_data !== undefined) {
