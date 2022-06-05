@@ -206,12 +206,13 @@ const MarketScreen = ({coins}) => {
     const session_data = window.sessionStorage.getItem('market_websocket');
     if (session_data === undefined) return '';
     const market_data = JSON.parse(session_data);
-    const name = coin_item.symbol + 'USDT';
+    const name = coin_item.symbol + 'USD';
     const find_data = market_data.find(x=>x.s === name.toUpperCase());
     let result = '';
     if (find_data !== undefined) {
       result = find_data.P;
     };
+    console.log("result = ", result)
     return result;
   }
 
@@ -315,16 +316,9 @@ const MarketScreen = ({coins}) => {
 
   const sortedCoins = orderBy(filteredCoins, sortkey, sortorder);
 
-  // console.log("coins = ", coins)
-
-
-
-  console.log("storecoines = ", sortedCoins)
-
   return (
     <>
       {/* {loaded && ( */}
-      {/* <div>----------{coins.market_data.current_price.usd}-----------</div> */}
         <SiteLayout>
           <TopCoins topcoin={topcoin} unit={unit}/>
           <TopBar
