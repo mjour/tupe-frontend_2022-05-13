@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import SiteLayout from '../../layouts/SiteLayout';
@@ -42,7 +42,8 @@ const selectedArrowUp = {
   color: 'black',
 };
 
-const MarketScreen = () => {
+
+const MarketScreen = ({coins}) => {
   const router = useRouter();
   const[loaded, setLoaded] = useState(false);
   const [data, setData] = useState([]);
@@ -104,8 +105,7 @@ const MarketScreen = () => {
           all_symbols.push(item.symbol.toUpperCase());
         });
       }
-    })
-    .catch(error => console.log(error));
+    });
 
     setTimeout(()=>{
       axios
@@ -157,7 +157,6 @@ const MarketScreen = () => {
     setTimeout(()=>{
       axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
         if (res && res.data && res.data.data) {
-          console.log(res.data.data.length)
           res.data.data.map(item=>{
             const index = all_coins.findIndex(x=>x.symbol === item.name.toLowerCase());
             if (index > -1) {
@@ -224,6 +223,7 @@ const MarketScreen = () => {
 
             const findIndex = data.findIndex(x=>x.symbol === insert_item.symbol);
             if (findIndex > -1) {
+              insert_item.pair = getItemPair(insert_item);
               new_data[findIndex] = {...insert_item};
             }
             setData([...new_data]);
@@ -238,69 +238,11 @@ const MarketScreen = () => {
             setTopcoin({...topcoin});
           }
         } catch (err) {
-          console.log(err);
+          //
         }
-      };
+      }
     }
     return () => controller.abort();
-    // const url = 'wss://stream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
-    // // const url = 'wss://stream.binance.com/stream';
-    // const isBrowser = typeof window !== "undefined";
-    // const ws = isBrowser ? new WebSocket(url) : null;
-    // if (!isNil(ws)) {
-    //   ws.onopen = (event) => {
-    //   };
-    //   ws.onclose = function (eventclose) {
-    //       // setTimeout(function () {
-    //       //     self.connectWs();
-    //       // }, 5000)
-    //   };
-
-    //   ws.onmessage = function (event) {
-    //     const json = JSON.parse(event.data);
-    //     try {
-    //       if (json.data !== undefined) {
-    //         // console.log("json = ", json.data)
-    //         let json_data = json.data;
-    //         data.map((item, index)=>{
-    //           let symbol = item.symbol.toUpperCase() + 'USDT';
-    //           let find_data = json_data.find(x=>x.s == symbol)
-    //           if (find_data !== undefined) {
-    //             console.log("finddata = ", find_data)
-    //             let insert_item = item;
-    //             if (isNil(insert_item.price_change_percentage_24h)) insert_item.price_change_percentage_24h = 0;
-    //             if (insert_item !== undefined && find_data.c !== undefined) {
-    //               insert_item.price_change_percentage_24h = find_data.P
-    //               insert_item.current_price = find_data.c;
-    //               insert_item.high_24h = find_data.h;
-    //               insert_item.low_24h = find_data.l;
-    //               console.log("insert_item = ", insert_item)
-    //             }
-    //             // if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
-    //             if (trade_price[insert_item.symbol] !== undefined && find_data.c !== undefined) trade_price[insert_item.symbol] = find_data.c;
-    //             setTradePrice(trade_price);
-    //             data[index] = {...insert_item};
-    //             setData([...data]);
-    //             const btc = data.find(x=>x.symbol === "btc");
-    //             const eth = data.find(x=>x.symbol === "eth");
-    //             const doge = data.find(x=>x.symbol === "doge");
-    //             const shib = data.find(x=>x.symbol === "shib");
-    //             if (btc !== undefined) topcoin.btc = [btc.current_price, btc.price_change_percentage_24h];
-    //             if (eth !== undefined) topcoin.eth = [eth.current_price, eth.price_change_percentage_24h];
-    //             if (doge !== undefined) topcoin.doge = [doge.current_price, doge.price_change_percentage_24h];
-    //             if (shib !== undefined) topcoin.shib = [shib.current_price, shib.price_change_percentage_24h];
-    //             setTopcoin({...topcoin});
-    //           }
-    //         })
-    //         // const btc_usd = json.data.find(x=>x.s == "");
-    //         // console.log("btcusd = ", btc_usd)
-
-    //       }
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   };
-    // }
   }, [allSymbol]);
 
   const handleSearchValue = (e) => {
@@ -341,9 +283,37 @@ const MarketScreen = () => {
 
   const sortedCoins = orderBy(filteredCoins, sortkey, sortorder);
 
+  // console.log("coins = ", coins)
+
+
+  const getItemPair = (coin_item) => {
+    const session_data = window.sessionStorage.getItem('market_websocket');
+    if (session_data === undefined) return [];
+    const market_data = JSON.parse(session_data);
+    const pair_list = ['USDT', 'USD', 'BNB','BTC','ETH'];
+    const result = [];
+    pair_list.map(item=>{
+      const name = coin_item.symbol + item;
+      const find_data = market_data.find(x=>x.s === name.toUpperCase());
+      if (find_data !== undefined) {
+        find_data.display_name = coin_item.symbol.toUpperCase() + "/" + item;
+        result.push(find_data);
+      }
+    });
+    // console.log("result = ", result);
+    return result;
+    
+
+    
+
+  }
+
+  console.log("storecoines = ", sortedCoins)
+
   return (
     <>
       {/* {loaded && ( */}
+      {/* <div>----------{coins.market_data.current_price.usd}-----------</div> */}
         <SiteLayout>
           <TopCoins topcoin={topcoin} unit={unit}/>
           <TopBar
@@ -376,7 +346,9 @@ const MarketScreen = () => {
                 {loaded && sortedCoins.map((item, index) => (
                   <>
                     {index >= (current_page - 1) * 20 && index < current_page *20 && (
-                      <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
+                      
+                          <MarketRow key={item.id.toString()} item={JSON.parse(JSON.stringify(item))} index={index + 1} multiple={multiple} unit={unit}/>
+                      
                     )}
                   </>
                 ))}
@@ -401,3 +373,45 @@ const MarketScreen = () => {
 };
 
 export default MarketScreen;
+
+// export async function getServerSideProps () {
+//   // console.log("allsymbol = ", allSymbol)
+//   // const response1 = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1');
+//   // const data1 = await response1.json();
+//   // const coins = [];
+//   // data1.map(item=>coins.push(item.id));
+//   // const response2 = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=1151&page=2');
+//   // const data2 = await response2.json();
+//   // data2.map(item=>coins.push(item.id));
+
+//   const response1 = await fetch('https://api.coingecko.com/api/v3/coins?per_page=250&page=1');
+//   const data1 = await response1.json();
+//   const response2 = await fetch('https://api.coingecko.com/api/v3/coins?per_page=2151&page=2');
+//   const data2 = await response2.json();
+  
+//   const coins = [...data1, ...data2];
+
+//   // const result = uniqBy(coins, 'id');
+
+//   // const coins = ['bitcoin','ethereum', 'tether','aave','bnb','solana'];
+//   // const result = [];
+//   // for(let i = 0; i < coins.length; i++) {
+//   //   try {
+//   //     const respone3 = await fetch('https://api.coingecko.com/api/v3/coins/'+coins[i]);
+//   //     const data3 = await respone3.json();
+//   //     result.push(data3);
+//   //   } catch(err) {
+//   //     console.log(err)
+//   //   }
+
+//   // }
+//   // const respone3 = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin');
+//   // const data3 = await respone3.json();
+  
+  
+//   return {
+//     props: {
+//       coins
+//     }
+//   };
+// }

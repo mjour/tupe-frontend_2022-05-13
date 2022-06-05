@@ -7,6 +7,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Box, Container, Row, Column, FooterLink, Heading } from './FooterStyles';
 import axios from 'axios';
+import {isNil} from 'lodash';
 
 const trading_list = ['TUPE', 'AUD', 'NZD', 'LKR', 'INR', 'BTC', 'ETH', 'BNB', 'TAUD', 'USDT', 'SHIB'];
 const Footer = ({ responsive }) => {
@@ -48,21 +49,28 @@ const Footer = ({ responsive }) => {
       }
     })
 
-    // const checkViewerCountInterval = setInterval(async () => {
-      
-    //   axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
-    //     if (res && res.data && res.data.data)   {
-    //       res.data.data.map(item=>{
-    //         const find_index = trading_list.indexOf(item.mapperName);
-    //         if (find_index > -1 && item.volume !== undefined && item.volume != null) {
-    //           trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
-    //           setTradingValue([...trading_value]);
-    //         }
-    //       })
-    //     }
-    //   })
-    // }, 1000 * 30);
-    // return () => clearInterval(checkViewerCountInterval);
+    const url = 'wss://stream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
+    const isBrowser = typeof window !== "undefined";
+    const ws = isBrowser ? new WebSocket(url) : null;
+    if (!isNil(ws)) {
+      ws.onopen = (event) => {
+      };
+      ws.onclose = function (eventclose) {
+      };
+
+      ws.onmessage = function (event) {
+        const json = JSON.parse(event.data);
+        try {
+          if (json.data !== undefined) {
+            const json_data = json.data;
+            window.sessionStorage.setItem("market_websocket", JSON.stringify(json_data));
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    }
+
   },[]);
 
   function gotoPage (type) {
