@@ -54,7 +54,7 @@ const MarketScreen = ({coins}) => {
   const [sortkey, setSortKey] = useState('');
   const [sortorder, setSortOrder] = useState('');
   const [tradeType, setTradeType] = useState('Favorites');
-  const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':0.71, 'NZD':0.65, 'LKR':0.0028, 'INR':0.013, 'BTC':29609.7, 'ETH':1969.82, 'BNB':328.11, 'TAUD':1.9107635219957542, 'USDT':1, 'SHIB':0.00001};
+  const tradeTypes = {'Favorites':1, 'TUPE':1, 'AUD':0.71, 'NZD':0.65, 'LKR':0.0028, 'INR':0.013, 'BTC':29609.7, 'ETH':1969.82, 'BNB':328.11, 'TAUD':2.9534070503733107, 'USDT':1, 'SHIB':0.00001};
   const [trade_price, setTradePrice] = useState(tradeTypes);
   const [multiple, setMulti] = useState(1);
   const [unit, setUnit] = useState('$');
@@ -184,6 +184,37 @@ const MarketScreen = ({coins}) => {
     window.sessionStorage.removeItem('market_type');
   }, []);
 
+  
+  const getItemPair = (coin_item) => {
+    const session_data = window.sessionStorage.getItem('market_websocket');
+    if (session_data === undefined) return [];
+    const market_data = JSON.parse(session_data);
+    const pair_list = ['USDT', 'USD', 'BNB','BTC','ETH'];
+    const result = [];
+    pair_list.map(item=>{
+      const name = coin_item.symbol + item;
+      const find_data = market_data.find(x=>x.s === name.toUpperCase());
+      if (find_data !== undefined) {
+        find_data.display_name = coin_item.symbol.toUpperCase() + "/" + item;
+        result.push(find_data);
+      }
+    });
+    return result;
+  }
+
+  const getItem24H = (coin_item) => {
+    const session_data = window.sessionStorage.getItem('market_websocket');
+    if (session_data === undefined) return '';
+    const market_data = JSON.parse(session_data);
+    const name = coin_item.symbol + 'USDT';
+    const find_data = market_data.find(x=>x.s === name.toUpperCase());
+    let result = '';
+    if (find_data !== undefined) {
+      result = find_data.P;
+    };
+    return result;
+  }
+
   useEffect(()=>{
     const subs = [];
     if (allSymbol.length === 0) return;
@@ -215,6 +246,7 @@ const MarketScreen = ({coins}) => {
             if (isNil(insert_item.price_change_percentage_24h)) insert_item.price_change_percentage_24h = 0;
             if (insert_item !== undefined && json.PRICE !== undefined) {
               insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
+              if (getItem24H(insert_item) !== '') insert_item.price_change_percentage_24h = getItem24H(insert_item);
               insert_item.current_price = json.PRICE;
             }
             // if (json.VOLUME24HOUR !== undefined) insert_item.total_volume = json.VOLUME24HOUR;
@@ -286,27 +318,6 @@ const MarketScreen = ({coins}) => {
   // console.log("coins = ", coins)
 
 
-  const getItemPair = (coin_item) => {
-    const session_data = window.sessionStorage.getItem('market_websocket');
-    if (session_data === undefined) return [];
-    const market_data = JSON.parse(session_data);
-    const pair_list = ['USDT', 'USD', 'BNB','BTC','ETH'];
-    const result = [];
-    pair_list.map(item=>{
-      const name = coin_item.symbol + item;
-      const find_data = market_data.find(x=>x.s === name.toUpperCase());
-      if (find_data !== undefined) {
-        find_data.display_name = coin_item.symbol.toUpperCase() + "/" + item;
-        result.push(find_data);
-      }
-    });
-    // console.log("result = ", result);
-    return result;
-    
-
-    
-
-  }
 
   console.log("storecoines = ", sortedCoins)
 
