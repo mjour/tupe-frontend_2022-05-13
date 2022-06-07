@@ -49,7 +49,7 @@ module.exports = {
     'no-undef': 'warn',
     'no-var': 'warn',
     'no-unused-vars': 'warn',
-    'no-use-before-define': 'warn',
+    'no-use-before-define': 'off',
     'newline-before-return': 'off',
     'react/prop-types': 'off',
     'linebreak-style': 'off',

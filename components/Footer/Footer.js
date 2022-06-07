@@ -10,7 +10,7 @@ import axios from 'axios';
 import {isNil} from 'lodash';
 
 const trading_list = ['TUPE', 'AUD', 'NZD', 'LKR', 'INR', 'BTC', 'ETH', 'BNB', 'TAUD', 'USDT', 'SHIB'];
-const Footer = ({ responsive }) => {
+const Footer = ({ responsive, coins }) => {
   const [trading_value, setTradingValue] = useState([]);
   const toggleAccordion = (elementId) => {
     const accordionContainer = document.getElementById('footerAccordion');
@@ -36,19 +36,6 @@ const Footer = ({ responsive }) => {
   };
 
   useEffect(()=>{
-
-    axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
-      if (res && res.data && res.data.data)   {
-        res.data.data.map(item=>{
-          const find_index = trading_list.indexOf(item.mapperName);
-          if (find_index > -1 && item.volume !== undefined && item.volume != null) {
-            trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
-            setTradingValue([...trading_value]);
-          }
-        })
-      }
-    })
-
     const url = 'wss://stream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
     const isBrowser = typeof window !== "undefined";
     const ws = isBrowser ? new WebSocket(url) : null;
@@ -70,6 +57,44 @@ const Footer = ({ responsive }) => {
         }
       };
     }
+    
+    // const url1 = 'wss://bstream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
+    // const ws1 = isBrowser ? new WebSocket(url1) : null;
+    // if (!isNil(ws1)) {
+    //   ws1.onopen = (event) => {
+    //   };
+    //   ws1.onclose = function (eventclose) {
+    //   };
+
+    //   ws1.onmessage = function (event) {
+    //     const json = JSON.parse(event.data);
+    //     console.log("json = ", json)
+    //     try {
+    //       if (json.data !== undefined) {
+    //         const json_data = json.data;
+    //         window.sessionStorage.setItem("market_websocket", JSON.stringify(json_data));
+    //       }
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   };
+    // }
+    
+    const timeInterval = setInterval(async()=> {
+      axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
+        if (res && res.data && res.data.data)   {
+          window.sessionStorage.setItem("binnance-market", JSON.stringify(res.data.data))
+          res.data.data.map(item=>{
+            const find_index = trading_list.indexOf(item.mapperName);
+            if (find_index > -1 && item.volume !== undefined && item.volume != null) {
+              trading_value[find_index] = parseFloat(item.volume/1000000).toFixed(2);
+              setTradingValue([...trading_value]);
+            }
+          })
+        }
+      })
+    }, 1000 * 3);
+    return ()=>clearInterval(timeInterval);
 
   },[]);
 

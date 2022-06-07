@@ -206,14 +206,12 @@ const MarketScreen = ({coins}) => {
     const session_data = window.sessionStorage.getItem('market_websocket');
     if (session_data === undefined) return '';
     const market_data = JSON.parse(session_data);
-    const name = coin_item.symbol + 'USD';
-    console.log("name = ", name)
-    const find_data = market_data.find(x=>x.s === name.toUpperCase());
+    const name = coin_item.symbol + 'USDT';
+    const find_data = market_data.find(x=>x.s.toUpperCase() === name.toUpperCase());
     let result = '';
     if (find_data !== undefined) {
       result = find_data.P;
     };
-    console.log("result = ", result)
     return result;
   }
 
@@ -237,17 +235,18 @@ const MarketScreen = ({coins}) => {
     if (!isNil(ws)) {
       ws.onopen = (event) => {
         ws.send(JSON.stringify(apiCall));
-        // ws.send();
+        // ws.send({method:"SUBADD"});
       };
       ws.onmessage = function (event) {
         const json = JSON.parse(event.data);
+        
         try {
           if (json.FROMSYMBOL !== undefined) {
             const new_data = cloneDeep(data);
             const insert_item = data.find(x=>x.symbol === json.FROMSYMBOL.toLowerCase());
             if (isNil(insert_item.price_change_percentage_24h)) insert_item.price_change_percentage_24h = 0;
             if (insert_item !== undefined && json.PRICE !== undefined) {
-              insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
+              // insert_item.price_change_percentage_24h *= (insert_item.current_price/json.PRICE)
               if (getItem24H(insert_item) !== '') insert_item.price_change_percentage_24h = getItem24H(insert_item);
               insert_item.current_price = json.PRICE;
             }
@@ -397,6 +396,9 @@ export default MarketScreen;
   
 //   const coins = [...data1, ...data2];
 
+
+  
+
 //   // const result = uniqBy(coins, 'id');
 
 //   // const coins = ['bitcoin','ethereum', 'tether','aave','bnb','solana'];
@@ -411,13 +413,14 @@ export default MarketScreen;
 //   //   }
 
 //   // }
-//   // const respone3 = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin');
-//   // const data3 = await respone3.json();
+
+//   const respone3 = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+//   const data3 = await respone3.json();
   
   
 //   return {
 //     props: {
-//       coins
+//       coins: data3
 //     }
 //   };
 // }
