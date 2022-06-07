@@ -69,10 +69,6 @@ const MarketScreen = ({coins}) => {
   const [topcoin, setTopcoin] = useState(init_state);
   const [allSymbol, setAllSymbol] = useState([]);
   const CRYTOCOMPARE_API_KEY = '22ecd4c3d9ba9629fe8555875cb826598533e729ef38e46af033f4f6fdec2802';
-  // const trade_api = 'https://min-api.cryptocompare.com/data/price?fsym=USD&tsyms=TUPE,AUD,NZD,LKR,INR,BTC,ETH,BNB,TAUD,USDT,SHIB';
-  // wss://stream.binance.com/stream
-  // https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list
-
 
   const apiFunction = async () => {
     var all_coins = [];
@@ -131,29 +127,6 @@ const MarketScreen = ({coins}) => {
       .catch();
     }, 100);
 
-    // setTimeout(()=>{
-    //   axios
-    //   .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=3&sparkline=false')
-    //   .then(res => {
-    //     if (res && res.data) {
-    //       const new_data_2 = [];
-    //       res.data.map((item, index)=>{
-    //         item.sort_number = index + data.length;
-    //         if (isNil(item.price_change_percentage_24h)) item.price_change_percentage_24h = 0;
-    //         if (tradeTypes[item.symbol.toUpperCase()] !== undefined && item.current_price !== undefined) tradeTypes[item.symbol.toUpperCase()] = item.current_price;
-    //         new_data_2.push(item);
-    //       });
-    //       setTradePrice(tradeTypes);
-    //       all_coins = all_coins.concat(new_data_2);
-    //       res.data.map(item=>{
-    //         if (allSymbol.indexOf(item.symbol.toUpperCase()) === -1)
-    //         all_symbols.push(item.symbol.toUpperCase());
-    //       });
-    //     }
-    //   })
-    //   .catch();
-    // }, 100);
-
     setTimeout(()=>{
       axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
         if (res && res.data && res.data.data) {
@@ -206,7 +179,7 @@ const MarketScreen = ({coins}) => {
     const session_data = window.sessionStorage.getItem('market_websocket');
     if (session_data === undefined) return '';
     const market_data = JSON.parse(session_data);
-    const name = coin_item.symbol + 'AUD';
+    const name = coin_item.symbol + 'USD';
     const find_data = market_data.find(x=>x.s.toUpperCase() === name.toUpperCase());
     let result = '';
     if (find_data !== undefined) {
@@ -378,49 +351,3 @@ const MarketScreen = ({coins}) => {
 };
 
 export default MarketScreen;
-
-// export async function getServerSideProps () {
-//   // console.log("allsymbol = ", allSymbol)
-//   // const response1 = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1');
-//   // const data1 = await response1.json();
-//   // const coins = [];
-//   // data1.map(item=>coins.push(item.id));
-//   // const response2 = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=1151&page=2');
-//   // const data2 = await response2.json();
-//   // data2.map(item=>coins.push(item.id));
-
-//   const response1 = await fetch('https://api.coingecko.com/api/v3/coins?per_page=250&page=1');
-//   const data1 = await response1.json();
-//   const response2 = await fetch('https://api.coingecko.com/api/v3/coins?per_page=2151&page=2');
-//   const data2 = await response2.json();
-  
-//   const coins = [...data1, ...data2];
-
-
-  
-
-//   // const result = uniqBy(coins, 'id');
-
-//   // const coins = ['bitcoin','ethereum', 'tether','aave','bnb','solana'];
-//   // const result = [];
-//   // for(let i = 0; i < coins.length; i++) {
-//   //   try {
-//   //     const respone3 = await fetch('https://api.coingecko.com/api/v3/coins/'+coins[i]);
-//   //     const data3 = await respone3.json();
-//   //     result.push(data3);
-//   //   } catch(err) {
-//   //     console.log(err)
-//   //   }
-
-//   // }
-
-//   const respone3 = await fetch('https://api.binance.com/api/v3/ticker/24hr');
-//   const data3 = await respone3.json();
-  
-  
-//   return {
-//     props: {
-//       coins: data3
-//     }
-//   };
-// }

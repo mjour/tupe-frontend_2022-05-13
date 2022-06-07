@@ -1,6 +1,5 @@
 import { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {isNil} from 'lodash';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 

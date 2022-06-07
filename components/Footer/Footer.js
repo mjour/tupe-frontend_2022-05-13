@@ -58,32 +58,9 @@ const Footer = ({ responsive, coins }) => {
       };
     }
     
-    // const url1 = 'wss://bstream.binance.com:9443/stream?streams=!ticker@arr@3000ms';
-    // const ws1 = isBrowser ? new WebSocket(url1) : null;
-    // if (!isNil(ws1)) {
-    //   ws1.onopen = (event) => {
-    //   };
-    //   ws1.onclose = function (eventclose) {
-    //   };
-
-    //   ws1.onmessage = function (event) {
-    //     const json = JSON.parse(event.data);
-    //     console.log("json = ", json)
-    //     try {
-    //       if (json.data !== undefined) {
-    //         const json_data = json.data;
-    //         window.sessionStorage.setItem("market_websocket", JSON.stringify(json_data));
-    //       }
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   };
-    // }
-    
     const timeInterval = setInterval(async()=> {
       axios.get('https://www.binance.com/bapi/composite/v1/public/marketing/symbol/list').then(res=>{
         if (res && res.data && res.data.data)   {
-          window.sessionStorage.setItem("binnance-market", JSON.stringify(res.data.data))
           res.data.data.map(item=>{
             const find_index = trading_list.indexOf(item.mapperName);
             if (find_index > -1 && item.volume !== undefined && item.volume != null) {
@@ -101,11 +78,6 @@ const Footer = ({ responsive, coins }) => {
   function gotoPage (type) {
     window.sessionStorage.setItem('market_type', type);
     window.location = '/market';
-    // const path = window.location.href;
-    // if (!path.includes('/market')) {
-    // } else {
-    //   $('html, body').animate({ scrollTop: 0 }, 'fast');
-    // }
   }
 
   return (
