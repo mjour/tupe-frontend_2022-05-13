@@ -93,7 +93,7 @@ const Footer = ({ responsive, coins }) => {
           })
         }
       })
-    }, 1000 * 3);
+    }, 1000 * 5);
     return ()=>clearInterval(timeInterval);
 
   },[]);

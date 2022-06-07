@@ -206,7 +206,7 @@ const MarketScreen = ({coins}) => {
     const session_data = window.sessionStorage.getItem('market_websocket');
     if (session_data === undefined) return '';
     const market_data = JSON.parse(session_data);
-    const name = coin_item.symbol + 'USDT';
+    const name = coin_item.symbol + 'AUD';
     const find_data = market_data.find(x=>x.s.toUpperCase() === name.toUpperCase());
     let result = '';
     if (find_data !== undefined) {
