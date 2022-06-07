@@ -10,7 +10,7 @@ function round(x, fix = 8) {
 }
 
 
-const TopCoins = memo(({topcoin, unit}) => (
+const TopCoins = memo(({topcoin, unit, multiple}) => (
   <div className='topcoins'>
     <div className='flex flex-space-between list-box'>
       <Link href='/exchange'>
@@ -25,7 +25,7 @@ const TopCoins = memo(({topcoin, unit}) => (
             <p style={{marginLeft: 5}}>BTC</p>
           </div>
           <div className='flex flex-v-center flex-space-between'>
-            <p>{unit}{round(topcoin.btc[0])}</p>
+            <p>{unit}{round(topcoin.btc[0]/multiple)}</p>
             <p className={topcoin.btc[1] > 0 ? 'green': 'red'}>{topcoin.btc[1] > 0 ? '+' : ''}{round(topcoin.btc[1], 8)}%</p>
           </div>
         </div>
