@@ -9,7 +9,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import CooperativePartners from '../../components/Widgets/CooperativePartners/CoopPartners';
 import EventCarousel from '../../components/Widgets/Homescreen/EventCarousel';
-import {isNil} from "lodash";
+import {isNil, orderBy} from "lodash";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 

@@ -50,7 +50,6 @@ const MarketScreen = ({coins}) => {
   const [keyword, setKeyword] = useState('');
   const [token, setToken] = useState('');
   const [current_page, setCurrentPage] = useState(1);
-  const [trade, setTrade] = useState({});
   const [sortkey, setSortKey] = useState('');
   const [sortorder, setSortOrder] = useState('');
   const [tradeType, setTradeType] = useState('Favorites');
@@ -193,22 +192,17 @@ const MarketScreen = ({coins}) => {
     if (allSymbol.length === 0) return;
     if (data.length === 0) return;
     allSymbol.map(item=>{
-      // const push_item =  '24~Coinbase~' + item + '~USD~D';
       const push_item = '5~CCCAGG~' + item + '~USD';
-      // const push_item =  '21~' + item;
       subs.push(push_item);
     });
     const controller = new AbortController();
     const apiCall = {action: 'SubAdd',subs};
-    // const apiCall = { method: "SUBSCRIBE" }
     const url = 'wss://streamer.cryptocompare.com/v2?api_key=' + CRYTOCOMPARE_API_KEY;
-    // const url = 'wss://stream.binance.com/stream';
     const isBrowser = typeof window !== "undefined";
     const ws = isBrowser ? new WebSocket(url) : null;
     if (!isNil(ws)) {
       ws.onopen = (event) => {
         ws.send(JSON.stringify(apiCall));
-        // ws.send({method:"SUBADD"});
       };
       ws.onmessage = function (event) {
         const json = JSON.parse(event.data);
