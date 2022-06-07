@@ -73,7 +73,7 @@ const MarketRow = memo(({ item, index, multiple, unit }) => {
         </td>
         <td className='right' style={{width:"14%"}}>
           <strong>
-            {unit} {round(item.current_price)}
+            {unit} {round(item.current_price/mulitple)}
           </strong>
         </td>
         <td className='right' style={{width:"14%"}}>
