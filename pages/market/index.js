@@ -320,7 +320,7 @@ const MarketScreen = ({coins}) => {
     <>
       {/* {loaded && ( */}
         <SiteLayout>
-          <TopCoins topcoin={topcoin} unit={unit}/>
+          <TopCoins topcoin={topcoin} unit={unit} multiple={multiple}/>
           <TopBar
             searchValue={keyword}
             searchOnChange={handleSearchValue}
