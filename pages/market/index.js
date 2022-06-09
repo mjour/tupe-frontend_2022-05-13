@@ -150,6 +150,9 @@ const MarketScreen = ({coins}) => {
   useEffect(()=> {
     const localToken = localStorage.getItem('token');
     setToken(localToken);
+    if (!localToken) {
+      router.push('/');
+    }
     apiFunction();
     const trade_cache_type = window.sessionStorage.getItem("market_type");
     if (!isNil(trade_cache_type)) handleTopButtonEvent(trade_cache_type);
